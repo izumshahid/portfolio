@@ -41,9 +41,9 @@ const InputField = ({ label, value, type = "text", requred = false }) => {
             onClick={toggleShowPassword}
           >
             {showPassword ? (
-              <span className="text-main_purple_color">👀</span>
+              <span className="text-main_purple_color">🤨</span>
             ) : (
-              <span className="text-main_purple_color">👁️‍🗨️</span>
+              <span className="text-main_purple_color">🫣</span>
             )}
           </div>
         ) : null}

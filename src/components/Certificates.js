@@ -11,8 +11,12 @@ const Certificates = ({ title, issued, provider, link }) => {
         </div>
         <div className="flex flex-col gap-1">
           <p className="text-xl md:text-2xl font-semibold">{title}</p>
-          <p className="text-base md:text-md">{provider}</p>
-          <p className="text-base md:text-md">{issued}</p>
+          <p className="text-base md:text-md">
+            <span className="font-semibold">Provider:</span> {provider}
+          </p>
+          <p className="text-base md:text-md">
+            <span className="font-semibold">Issued:</span> {issued}
+          </p>
         </div>
       </div>
     </a>

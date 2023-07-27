@@ -10,7 +10,7 @@ const ProjectThumbnail = ({
   navlink,
 }) => {
   return (
-    <Link href={"/"}>
+    <Link href={navlink}>
       <div className="flex flex-col justify-center items-center">
         <div className="w-full max-h-64 rounded-lg overflow-hidden">
           <Image src={bannerImage} className="object-cover w-full" />

@@ -11,9 +11,9 @@ const Skills = () => {
         {SKILLS_ARR.map(({ title }, idx) => (
           <div
             key={idx}
-            className="bg-main_purple_color hover:bg-main_hover_purple p-3 rounded-md hover:scale-110 transition-all duration-300 ease-in-out cursor-default"
+            className="bg-main_purple_color hover:bg-main_hover_purple min-w-fit w-9 text-center rounded-md hover:scale-110 transition-all duration-300 ease-in-out cursor-default"
           >
-            <p className="text-white text-sm sm:text-base lg:text-lg">
+            <p className="text-white text-sm sm:text-base p-3 lg:text-lg">
               {title}
             </p>
           </div>

@@ -85,12 +85,19 @@ export default function Home() {
         <div className="w-full lg:w-1/3 flex flex-col gap-5">
           <div className="w-full"></div>
         </div>
-        <ProjectBanner />
+        <ProjectBanner
+          makeCard={true}
+          banner={ALL_PROJECTS[0].bannerImage}
+          profile={ALL_PROJECTS[0].profileImage}
+          link={ALL_PROJECTS[0].navlink}
+          title={ALL_PROJECTS[0].title}
+          desc="Build your Pc as you like"
+        />
 
-        <div className="mt-20 flex flex-col lg:flex-row flex-wrap">
+        <div className="mt-8 md:mt-20 flex flex-col lg:flex-row flex-wrap">
           {ALL_PROJECTS.slice(1, ALL_PROJECTS.length).map(
             ({ title, description, bannerImage, profileImage, navlink }) => (
-              <div className="w-full lg:w-1/2 mb-11 p-2 rounded-lg shadow-lg">
+              <div className="w-full lg:w-1/2 mb-11 p-2 rounded-lg shadow-lg hover:shadow-main_hover_purple hover:-translate-y-1 duration-500">
                 <ProjectThumbnail
                   key={title}
                   title={title}

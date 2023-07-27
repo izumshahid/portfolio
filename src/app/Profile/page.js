@@ -26,7 +26,7 @@ const Profile = () => {
               requred
               label="Password"
               type="password"
-              value="Let's keep this hidden 😉"
+              value="Let's keep this hidden!!!"
             />
           </div>
         </div>
@@ -75,7 +75,7 @@ const Profile = () => {
 
       <div className="certification">
         <p className="text-lg md:text-2xl font-semibold mb-5 pb-1 border-b">
-          Certifications & Assessments
+          Certifications & Badges
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 w-full mb-3">

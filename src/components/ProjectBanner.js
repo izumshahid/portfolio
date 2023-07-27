@@ -1,21 +1,25 @@
 import React from "react";
 import Image from "next/image";
-import ApexBannerImg from "../assets/apex/banner.png";
-import APEX_PROFILE_IMG from "@/assets/apex/profile.png";
 
-const ProjectBanner = () => {
+const ProjectBanner = ({ banner, profile, title, desc, makeCard = false }) => {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="w-full max-h-72 rounded-lg overflow-hidden">
-        <Image src={ApexBannerImg} className="object-cover w-full" />
+    <div
+      className={`${
+        makeCard
+          ? "shadow-lg py-3 px-1 hover:shadow-main_hover_purple duration-500 hover:-translate-y-1"
+          : ""
+      } flex flex-col justify-center items-center `}
+    >
+      <div className="w-full max-h-96 rounded-lg overflow-hidden">
+        <Image src={banner} className="object-cover w-full" alt="banner" />
       </div>
-      <div className="flex gap-3 justify-center items-center">
-        <div className="w-14 h-14 rounded-full mt-5">
-          <Image src={APEX_PROFILE_IMG} className="w-full rounded-full" />
+      <div className="flex gap-3 w-full justify-start">
+        <div className="w-14 h-14 rounded-full mt-5 min-w-[45px]">
+          <Image src={profile} className="w-full rounded-full" alt="profile" />
         </div>
         <div className="mt-3">
-          <p className="text-lg font-semibold">Apex Gaming</p>
-          <p className="text-sm text-gray-500">Build your Pc as you like</p>
+          <p className="text-lg font-semibold">{title}</p>
+          <p className="text-sm text-gray-500">{desc}</p>
         </div>
       </div>
     </div>
