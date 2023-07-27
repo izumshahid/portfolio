@@ -10,9 +10,9 @@ const InputField = ({ label, value, type = "text", requred = false }) => {
   };
 
   return (
-    <div class="mb-2">
+    <div className="mb-2">
       <label
-        class="block text-gray-700 text-base md:text-xl font-semibold mb-2"
+        className="block text-gray-700 text-base md:text-xl font-semibold mb-2"
         for="username"
       >
         🔹
@@ -32,7 +32,7 @@ const InputField = ({ label, value, type = "text", requred = false }) => {
           type={
             type === "password" ? (showPassword ? "text" : "password") : type
           }
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-not-allowed text-lg md:text-xl"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-not-allowed text-lg md:text-xl"
           value={value}
         />
         {type === "password" ? (

@@ -1,6 +1,9 @@
 import Skills from "@/components/Skills";
 import CollapsableComponent from "../components/CollapsableComponent";
 import { Interests } from "@/components/Interests";
+import ProjectBanner from "@/components/ProjectBanner";
+import ProjectThumbnail from "@/components/ProjectThumbnail";
+import { ALL_PROJECTS } from "@/utils/contants";
 
 export default function Home() {
   return (
@@ -78,15 +81,29 @@ export default function Home() {
             />
           </div>
         </div> */}
-
         {/* //create a thumbnail for a project with image and link to the project */}
-
         <div className="w-full lg:w-1/3 flex flex-col gap-5">
           <div className="w-full"></div>
         </div>
+        <ProjectBanner />
 
+        <div className="mt-20 flex flex-col lg:flex-row flex-wrap">
+          {ALL_PROJECTS.slice(1, ALL_PROJECTS.length).map(
+            ({ title, description, bannerImage, profileImage, navlink }) => (
+              <div className="w-full lg:w-1/2 mb-11 p-2 rounded-lg shadow-lg">
+                <ProjectThumbnail
+                  key={title}
+                  title={title}
+                  description={description}
+                  bannerImage={bannerImage}
+                  profileImage={profileImage}
+                  navlink={navlink}
+                />
+              </div>
+            )
+          )}
+        </div>
         <Skills />
-
         <Interests />
       </div>
     </div>
