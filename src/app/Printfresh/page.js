@@ -27,13 +27,6 @@ const Printfresh = () => {
           desc={project.description}
         />
       ) : null}
-
-      <div>irzu</div>
-      <div>irzu</div>
-      <div>irzu</div>
-      <div>irzu</div>
-      <div>irzu</div>
-      <div>irzu</div>
     </div>
   );
 };
