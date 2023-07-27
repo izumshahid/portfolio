@@ -4,6 +4,7 @@ import { Interests } from "@/components/Interests";
 import ProjectBanner from "@/components/ProjectBanner";
 import ProjectThumbnail from "@/components/ProjectThumbnail";
 import { ALL_PROJECTS } from "@/utils/contants";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -85,14 +86,14 @@ export default function Home() {
         <div className="w-full lg:w-1/3 flex flex-col gap-5">
           <div className="w-full"></div>
         </div>
-        <ProjectBanner
-          makeCard={true}
-          banner={ALL_PROJECTS[0].bannerImage}
-          profile={ALL_PROJECTS[0].profileImage}
-          link={ALL_PROJECTS[0].navlink}
-          title={ALL_PROJECTS[0].title}
-          desc="Build your Pc as you like"
-        />
+        <Link href={ALL_PROJECTS[0].navlink}>
+          <ProjectBanner
+            banner={ALL_PROJECTS[0].bannerImage}
+            profile={ALL_PROJECTS[0].profileImage}
+            title={ALL_PROJECTS[0].title}
+            desc="Build your Pc as you like"
+          />
+        </Link>
 
         <div className="mt-8 md:mt-20 flex flex-col lg:flex-row flex-wrap">
           {ALL_PROJECTS.slice(1, ALL_PROJECTS.length).map(

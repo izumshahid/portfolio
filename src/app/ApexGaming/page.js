@@ -31,7 +31,7 @@ const ApexGaming = () => {
       ) : null}
 
       <div className="w-full md:w-11/12 m-auto flex flex-col gap-5 mt-7">
-        {project?.images.map(({ img, desc }, index) => (
+        {project?.images?.map(({ img, desc }, index) => (
           <div className="mb-5 shadow-lg py-3 px-1 hover:shadow-main_hover_purple duration-500 hover:-translate-y-1">
             <Image
               key={index}

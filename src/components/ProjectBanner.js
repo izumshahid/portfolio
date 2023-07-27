@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const ProjectBanner = ({ banner, profile, title, desc, makeCard = false }) => {
+const ProjectBanner = ({ banner, profile, title, desc, makeCard = true }) => {
   return (
     <div
       className={`${
