@@ -34,7 +34,7 @@ const LayoutChild = ({ children }) => {
     <body className="bg-[#F9F9F9]">
       <div className="flex flex-row">
         <Sidebar />
-        <div className="bg-[#F9F9F9] w-full p-8 h-screen">
+        <div className="bg-[#F9F9F9] w-full py-8 px-4 md:px-2 h-screen">
           <Header />
           {sidebarExpanded ? (
             <div
@@ -43,7 +43,7 @@ const LayoutChild = ({ children }) => {
             ></div>
           ) : null}
 
-          <main className="lg:ml-64 lg:max-w-[80%] overflow-x-hidden pt-14 md:pt-24">
+          <main className="lg:ml-64 lg:max-w-[95%] overflow-x-hidden pt-14 md:pt-24">
             {children}
           </main>
         </div>

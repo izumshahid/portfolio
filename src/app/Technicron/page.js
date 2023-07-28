@@ -22,7 +22,6 @@ const Technicron = () => {
     <div>
       {project ? (
         <ProjectBanner
-          makeCard={false}
           banner={project.bannerImage}
           profile={project.profileImage}
           title={project.title}

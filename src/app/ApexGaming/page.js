@@ -22,7 +22,6 @@ const ApexGaming = () => {
     <div>
       {project ? (
         <ProjectBanner
-          makeCard={true}
           banner={project.bannerImage}
           profile={project.profileImage}
           title={project.title}

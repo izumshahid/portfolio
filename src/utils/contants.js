@@ -1,9 +1,6 @@
 import HOME_IMAGE from "../assets/home.png";
 import PROFILE from "../assets/profile.png";
 
-import MCQS_BANNER_IMG from "../assets/mcsLearning/banner.png";
-import MCQS_PROFILE_IMG from "../assets/mcsLearning/profile.png";
-
 import A_ALPHABET_IMG from "../assets/a.png";
 import P_ALPHABET_IMG from "../assets/p.png";
 import N_ALPHABET_IMG from "../assets/n.png";
@@ -58,8 +55,16 @@ import TECHNICRON_CONTACT_MOBILE_IMG from "../assets/technicron/contactusmobile.
 import TECHNICRON_DESKTOP_HOME_IMG from "../assets/technicron/desktop.png";
 import TECHNICRON_MOBILE_HOME_IMG from "../assets/technicron/mobileHome.png";
 import TECHNICRON_CONSTACTUS_DESKTOP_IMG from "../assets/technicron/constactusDesktop.png";
-
 //Technicron
+
+//MCQs Learning
+import MCQS_BANNER_IMG from "../assets/mcsLearning/banner.png";
+import MCQS_PROFILE_IMG from "../assets/mcsLearning/profile.png";
+import MCQS_DASHBOARD_IMG from "../assets/mcsLearning/dashboard.png";
+import MCQS_DESKTOPVIEW_IMG from "../assets/mcsLearning/desktopMcq.png";
+import MCQS_MOBILEVIEW_IMG from "../assets/mcsLearning/mobilemcq.png";
+import MCQS_TABLETVIEW_IMG from "../assets/mcsLearning/tabletMcq.png";
+//MCQs Learning
 
 export const ALL_PROJECTS = [
   {
@@ -215,6 +220,24 @@ export const ALL_PROJECTS = [
     bannerImage: MCQS_BANNER_IMG,
     profileImage: MCQS_PROFILE_IMG,
     navlink: "/MCQsLearning",
+    images: [
+      {
+        img: MCQS_DASHBOARD_IMG,
+        desc: "This is the dashboard page. Here user can see the select subject they are willing to give the test.",
+      },
+      {
+        img: MCQS_DESKTOPVIEW_IMG,
+        desc: "This is the test page. This page is for desktop view.",
+      },
+      {
+        img: MCQS_MOBILEVIEW_IMG,
+        desc: "This is the test page. This page is for mobile view.",
+      },
+      {
+        img: MCQS_TABLETVIEW_IMG,
+        desc: "This is the test page. This page is for tablet view.",
+      },
+    ],
   },
 ];
 
