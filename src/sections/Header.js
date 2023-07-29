@@ -45,9 +45,9 @@ const Header = () => {
     <div
       className={`${
         activeNav?.link == "/"
-          ? "flex items-center bg-transparent"
-          : "shadow-md"
-      } h-13 md:h-28 lg:ml-64 lg:max-w-full overflow-x-hidden fixed top-0 left-0 w-full bg-white z-50 px-5 py-3 `}
+          ? "flex items-center bg-transparent shadow-none"
+          : "shadow-md bg-white"
+      } h-13 md:h-28 lg:ml-64 lg:max-w-full overflow-x-hidden fixed top-0 left-0 w-full  z-50 px-5 py-3 `}
     >
       <div
         className={`${
