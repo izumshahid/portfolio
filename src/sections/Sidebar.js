@@ -37,7 +37,7 @@ function Sidebar() {
         <div className="flex flex-col mb-9 border-white border-b border-opacity-30 pb-5 justify-center">
           {/* Logo */}
           <div className="flex items-center justify-center mb-3">
-            <Link href="/Profile">
+            <Link href="/AboutMe">
               <div
                 className="rounded-full hover:scale-110 transition-all duration-300 ease-in-out
                border-main_purple_color border-2 w-28 h-28 flex items-center justify-center text-white font-bold"

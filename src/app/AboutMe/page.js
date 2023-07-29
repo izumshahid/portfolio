@@ -1,5 +1,7 @@
 import Certificates from "@/components/Certificates";
 import InputField from "@/components/InputField";
+import { Interests } from "@/components/Interests";
+import Skills from "@/components/Skills";
 import React from "react";
 
 const Profile = () => {
@@ -126,6 +128,9 @@ const Profile = () => {
           <div className="sm:w-1/2 sm:hidden"></div>
         </div>
       </div>
+
+      <Skills />
+      <Interests />
     </div>
   );
 };

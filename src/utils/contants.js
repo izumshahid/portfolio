@@ -1,5 +1,6 @@
 import HOME_IMAGE from "../assets/home.png";
-import PROFILE from "../assets/profile.png";
+import ABOUT_ME from "../assets/profile.png";
+import PROJECTS from "../assets/projects.png";
 
 import A_ALPHABET_IMG from "../assets/a.png";
 import P_ALPHABET_IMG from "../assets/p.png";
@@ -244,13 +245,18 @@ export const ALL_PROJECTS = [
 export const NAV_ARRAY = [
   {
     link: "/",
-    title: "Dashboard",
+    title: "Home",
     img: HOME_IMAGE,
   },
   {
-    link: "/Profile",
-    title: "Profile",
-    img: PROFILE,
+    link: "/Projects",
+    title: "Projects",
+    img: PROJECTS,
+  },
+  {
+    link: "/AboutMe",
+    title: "About Me",
+    img: ABOUT_ME,
   },
   {
     link: "/ApexGaming",

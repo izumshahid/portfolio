@@ -8,7 +8,7 @@ import React, { useEffect } from "react";
 
 const LayoutChild = ({ children }) => {
   const pathname = usePathname();
-  const { sidebarExpanded, setSidebarExpanded } = myContext();
+  const { sidebarExpanded, setSidebarExpanded, activeNav } = myContext();
 
   const closeNav = () => {
     setSidebarExpanded(false);
@@ -34,7 +34,13 @@ const LayoutChild = ({ children }) => {
     <body className="bg-[#F9F9F9]">
       <div className="flex flex-row">
         <Sidebar />
-        <div className="bg-[#F9F9F9] w-full py-8 px-4 md:px-2 h-screen">
+        <div
+          className={`${
+            activeNav?.link == "/"
+              ? "bg-Home-banner bg-cover bg-center"
+              : "bg-[#F9F9F9] "
+          } w-full py-8 px-4 md:px-2 h-screen`}
+        >
           <Header />
           {sidebarExpanded ? (
             <div

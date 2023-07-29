@@ -44,8 +44,10 @@ const Header = () => {
   return (
     <div
       className={`${
-        activeNav?.link == "/" ? "flex items-center" : ""
-      } h-13 md:h-28 lg:ml-64 lg:max-w-full overflow-x-hidden fixed top-0 left-0 w-full bg-white z-50 px-5 py-3 shadow-md`}
+        activeNav?.link == "/"
+          ? "flex items-center bg-transparent"
+          : "shadow-md"
+      } h-13 md:h-28 lg:ml-64 lg:max-w-full overflow-x-hidden fixed top-0 left-0 w-full bg-white z-50 px-5 py-3 `}
     >
       <div
         className={`${
@@ -90,7 +92,7 @@ const Header = () => {
             </div>
           )}
           <h3 className="text-lg md:text-3xl font-bold text-main_black_color">
-            {activeNav?.title}
+            {activeNav?.link == "/" ? "" : activeNav?.title}
           </h3>
         </div>
       </div>

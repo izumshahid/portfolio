@@ -14,6 +14,8 @@ module.exports = {
         main_purple_color: "#9139ba",
       },
       backgroundImage: {
+        "Home-banner":
+          "url(https://watson.cosmos-themes.com/dark/particles/wp-content/uploads/2021/05/home-bg.jpg)",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
