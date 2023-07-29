@@ -249,14 +249,14 @@ export const NAV_ARRAY = [
     img: HOME_IMAGE,
   },
   {
-    link: "/Projects",
-    title: "Projects",
-    img: PROJECTS,
-  },
-  {
     link: "/AboutMe",
     title: "About Me",
     img: ABOUT_ME,
+  },
+  {
+    link: "/Projects",
+    title: "Projects",
+    img: PROJECTS,
   },
   {
     link: "/ApexGaming",

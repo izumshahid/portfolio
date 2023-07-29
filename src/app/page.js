@@ -12,60 +12,20 @@ import Typed from "react-typed";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-5 mb-5">
-      <div className="text-white md:p-5 rounded-bl-full rounded-tr-full">
-        <div className="w-40 rounded-full m-auto mb-5 overflow-hidden p-2 border-2 border-main_hover_purple bg-green-600">
+    <div className="flex flex-col gap-5 mb-5 justify-center h-full items-center">
+      <div className="text-white md:p-5 rounded-bl-full rounded-tr-full ">
+        <div className="w-40 2xl:w-44 rounded-full m-auto mb-8 md:mb-10 overflow-hidden p-2 border-2 border-main_hover_purple bg-green-600">
           <Image
             src={My_PROFILE_IMG}
             alt="heroimg"
             className="w-full object-contain rounded-full border-2 border-main_hover_purple p-2 bg-main_purple_color"
           />
         </div>
-        {/* <div className="flex flex-col gap-3">
-          <p>
-            I'm a <strong>Full Stack Developer</strong> with a passion for
-            building beautiful and functional user interfaces. As a Full Stack
-            React and Node.js Developer, I possess a strong foundation in both
-            front-end and back-end development. I am proficient in JavaScript,
-            HTML, CSS, and have extensive experience with React, Redux, and
-            Node.js. I have a deep understanding of modern web development
-            practices, including responsive design, cross-browser compatibility,
-            and performance optimization.
-          </p>
-
-          <p>
-            On the back-end, I am skilled in building robust and scalable
-            server-side applications using Node.js. I have experience with
-            Express.js, a popular Node.js framework, for creating RESTful APIs
-            and handling server-side logic. I am proficient in database
-            management using both SQL (PostgreSQL) and NoSQL (MongoDB)
-            databases, ensuring efficient data storage and retrieval.
-          </p>
-
-          <p>
-            I am a quick learner and a team player who is passionate about
-            building high-quality software. I am always looking to learn new
-            technologies and improve my skills. Below you can find some of my
-            projects. Feel free to reach out to me if you have any questions or
-            would like to work together! Thanks.
-          </p>
-
-          <p>
-            <a
-              href="https://drive.google.com/file/d/1aThXKPF0SG-b6p7BZnEMnH5Dqhnp2NBQ/view?usp=sharing"
-              target="_blank"
-              className="text-green-500 text-xl font-bold underline animate-bounce inline-block"
-            >
-              Here
-            </a>{" "}
-            is my updated resume.
-          </p>
-        </div> */}
         <div className="text-center">
-          <p className="text-2xl sm:text-4xl font-bold font-serif">
+          <p className="text-2xl sm:text-4xl 2xl:text-[60px] font-bold font-serif mb-3 md:mb-5">
             IRZUM <span className="text-main_purple_color">SHAHID</span>
           </p>
-          <h1 className="text-xl sm:text-4xl font-bold font-serif text-main_purple_color ">
+          <h1 className="text-xl sm:text-4xl 2xl:text-[60px] font-bold font-serif text-main_purple_color ">
             I'm a{" "}
             <Typed
               strings={[
@@ -78,7 +38,7 @@ export default function Home() {
               backSpeed={50}
               cursorChar="|"
               showCursor={true}
-              className="text-xl sm:text-4xl font-bold text-main_purple_color"
+              className="text-xl sm:text-4xl 2xl:text-[60px] font-bold text-main_purple_color"
             >
               <input type="text" className="bg-transparent text-white" />
             </Typed>
