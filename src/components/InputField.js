@@ -11,10 +11,7 @@ const InputField = ({ label, value, type = "text", requred = false }) => {
 
   return (
     <div className="mb-2">
-      <label
-        className="block text-gray-700 text-base md:text-xl font-semibold mb-2"
-        for="username"
-      >
+      <label className="block text-gray-700 text-base md:text-xl font-semibold mb-2">
         🔹
         {type === "password" ? (
           showPassword ? (

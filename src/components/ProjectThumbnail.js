@@ -13,11 +13,12 @@ const ProjectThumbnail = ({
     <Link href={navlink}>
       <div className="flex flex-col justify-center items-center">
         <div className="w-full max-h-64 rounded-lg overflow-hidden">
-          <Image src={bannerImage} className="object-cover w-full" />
+          <Image src={bannerImage} alt="img" className="object-cover w-full" />
         </div>
         <div className="flex gap-3 w-full">
           <div className="w-14 h-14 rounded-full mt-5 min-w-[50px]">
             <Image
+              alt="img"
               src={profileImage}
               className="w-full rounded-full border-2 object-cover"
             />

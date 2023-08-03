@@ -8,6 +8,7 @@ import N_ALPHABET_IMG from "../assets/n.png";
 import M_ALPHABET_IMG from "../assets/m.png";
 import R_ALPHABET_IMG from "../assets/r.png";
 import T_ALPHABET_IMG from "../assets/t.png";
+import S_ALPHABET_IMG from "../assets/s_alphabet.png";
 
 //APEXgAMING
 import APEX_BANNER_IMG from "../assets/apex/banner.png";
@@ -66,6 +67,17 @@ import MCQS_DESKTOPVIEW_IMG from "../assets/mcsLearning/desktopMcq.png";
 import MCQS_MOBILEVIEW_IMG from "../assets/mcsLearning/mobilemcq.png";
 import MCQS_TABLETVIEW_IMG from "../assets/mcsLearning/tabletMcq.png";
 //MCQs Learning
+
+//Selli
+import SELLI_PROFILE from "../assets/selli/profile.png";
+import SELLI_BAR_GRAPH from "../assets/selli/barGraph.jpg";
+import SELLI_DASBHOARD_COMPLETE from "../assets/selli/dashabordComplete.jpg";
+import SELLI_DASHBAORD from "../assets/selli/dashbaord.jpg";
+import SELLI_PROD_COMP_GRAPH from "../assets/selli/prodCompGraph.jpg";
+import SELLI_REGIONAL_STATS from "../assets/selli/regionalStats.jpg";
+import SELLI_ROI from "../assets/selli/roi.jpg";
+import SELLI_VALUABLE_CUSTOMER from "../assets/selli/valuablecustomer.jpg";
+//Selli
 
 export const ALL_PROJECTS = [
   {
@@ -159,6 +171,40 @@ export const ALL_PROJECTS = [
       {
         img: RECHARGE_UPCOMING_IMG,
         desc: "This is the upcoming order page. Here user can see their upcoming orders and can see the details of the order.",
+      },
+    ],
+  },
+  {
+    title: "Selli",
+    description:
+      "This is a non-embeded Shopify public app. It is a full-stack project built with React (AntD), NodeJS (ExpressJS), MongoDB.  This app give's you the insights of your shopify store with tabular and graphical representation. It also gives you the insights of your products, orders, customers.",
+    bannerImage: SELLI_DASHBAORD,
+    profileImage: SELLI_PROFILE,
+    navlink: "/Selli",
+    images: [
+      {
+        img: SELLI_DASBHOARD_COMPLETE,
+        desc: "This is the dashboard page. Here user can see the insights of their store.",
+      },
+      {
+        img: SELLI_BAR_GRAPH,
+        desc: "Graph to see the stats for product's SKU comparison",
+      },
+      {
+        img: SELLI_PROD_COMP_GRAPH,
+        desc: "",
+      },
+      {
+        img: SELLI_REGIONAL_STATS,
+        desc: "Cards to see the regional stats based on orders",
+      },
+      {
+        img: SELLI_ROI,
+        desc: "ROI page to see the ROI of based onproducts",
+      },
+      {
+        img: SELLI_VALUABLE_CUSTOMER,
+        desc: "Valuable customer page to see the valuable customer based on their orders",
       },
     ],
   },
@@ -262,6 +308,11 @@ export const NAV_ARRAY = [
     link: "/ApexGaming",
     title: "Apex Gaming",
     img: A_ALPHABET_IMG,
+  },
+  {
+    link: "/Selli",
+    title: "Selli",
+    img: S_ALPHABET_IMG,
   },
   {
     link: "/Printfresh",

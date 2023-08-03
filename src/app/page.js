@@ -1,14 +1,8 @@
 "use client";
 
-import Skills from "@/components/Skills";
-import { Interests } from "@/components/Interests";
-import ProjectBanner from "@/components/ProjectBanner";
-import ProjectThumbnail from "@/components/ProjectThumbnail";
-import { ALL_PROJECTS } from "@/utils/contants";
-import Link from "next/link";
 import Image from "next/image";
-import My_PROFILE_IMG from "../assets/myProfile.png";
 import Typed from "react-typed";
+import My_PROFILE_IMG from "../assets/myProfile.png";
 
 export default function Home() {
   return (
@@ -40,7 +34,11 @@ export default function Home() {
               showCursor={true}
               className="text-xl sm:text-4xl 2xl:text-[60px] font-bold text-main_purple_color"
             >
-              <input type="text" className="bg-transparent text-white" />
+              <input
+                type="text"
+                disabled
+                className="bg-transparent text-white"
+              />
             </Typed>
           </h1>
         </div>

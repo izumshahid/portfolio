@@ -7,7 +7,7 @@ import { ALL_PROJECTS } from "@/utils/contants";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-const MCQsLearning = () => {
+const Selli = () => {
   const { activeNav } = myContext();
   const [project, setProject] = useState(null);
 
@@ -37,4 +37,4 @@ const MCQsLearning = () => {
   );
 };
 
-export default MCQsLearning;
+export default Selli;
