@@ -20,12 +20,18 @@ export default function Home() {
             IRZUM <span className="text-main_purple_color">SHAHID</span>
           </p>
           <h1 className="text-xl sm:text-4xl 2xl:text-[60px] font-bold font-serif text-main_purple_color ">
-            I'm a{" "}
+            Worked on{" "}
             <Typed
               strings={[
-                "Frontend Developer",
-                "Backend Developer",
-                "Full Stack Developer",
+                "REACT JS",
+                "NODE JS",
+                "NEXT JS",
+                "EXPRESS JS",
+                "MONGODB",
+                "MONGOOSE",
+                "ANTD",
+                "TAILWIND CSS",
+                "COUREUI",
               ]}
               typeSpeed={50}
               loop
