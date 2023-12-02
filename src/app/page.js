@@ -38,7 +38,7 @@ export default function Home() {
               backSpeed={50}
               cursorChar="|"
               showCursor={true}
-              className="text-xl sm:text-4xl 2xl:text-[60px] font-bold text-main_purple_color"
+              className="text-xl sm:text-4xl 2xl:text-[60px] font-bold text-main_purple_color max-w-[400px] w-full inline-block"
             >
               <input
                 type="text"
