@@ -26,6 +26,8 @@ export default function Home() {
                 "REACT JS",
                 "NODE JS",
                 "NEXT JS",
+                "Shopify Apps",
+                "Shopify Themes",
                 "EXPRESS JS",
                 "MONGODB",
                 "MONGOOSE",
