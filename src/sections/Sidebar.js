@@ -58,7 +58,7 @@ function Sidebar() {
               className="w-15 h-15 rounded-full m-auto hover:scale-110 transition-all duration-300 ease-in-out hover:drop-shadow-[0_3px_1px_rgba(25,78,50,1)]"
               alt="pakistan-emoji"
             />
-            Full Stack Developer - React.js | Tailwind | Node.js | MongoDB
+            React.js | Tailwind | Node.js | MongoDB | Shopify
           </p>
           <div className="flex items-center pl-1 gap-2 justify-center">
             <a
