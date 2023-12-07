@@ -45,12 +45,19 @@ function Sidebar() {
                 <img
                   src="https://www.upwork.com/profile-portraits/c1oBF7Z8c7Uej55EIl4ih9qL6OpyygrdGjo4IHG7gIAEUveonh59IMzQ5bZJWqzxZk"
                   alt="logo"
-                  className="w-24 h-24 rounded-full hover:scale-110 transition-all duration-300 ease-in-out hover:shadow-xl hover:shadow-emerald-400"
+                  className="w-24 h-24 rounded-full hover:scale-110 transition-all duration-300 ease-in-out hover:shadow-xl shadow-emerald-400"
                 />
               </div>
             </Link>
           </div>
           <p className="text-white px-2 mb-7">
+            <img
+              width="48"
+              height="48"
+              src="https://img.icons8.com/emoji/48/pakistan-emoji.png"
+              className="w-15 h-15 rounded-full m-auto hover:scale-110 transition-all duration-300 ease-in-out hover:drop-shadow-[0_3px_1px_rgba(25,78,50,1)]"
+              alt="pakistan-emoji"
+            />
             Full Stack Developer - React.js | Tailwind | Node.js | MongoDB
           </p>
           <div className="flex items-center pl-1 gap-2 justify-center">
