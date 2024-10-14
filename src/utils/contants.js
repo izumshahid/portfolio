@@ -8,7 +8,7 @@ import N_ALPHABET_IMG from "../assets/n.png";
 import M_ALPHABET_IMG from "../assets/m.png";
 import R_ALPHABET_IMG from "../assets/r.png";
 import T_ALPHABET_IMG from "../assets/t.png";
-import I_ALPHABET_IMG from "../assets/i.png";
+import I_ALPHABET_IMG from "../assets/I.png";
 import S_ALPHABET_IMG from "../assets/s_alphabet.png";
 
 //APEXgAMING
