@@ -104,6 +104,12 @@ import APEX_WEB_BUILD_STATUS from "../assets/ApexWebApp/buildStatus.png";
 import APEX_WEB_SETUP_STATUS from "../assets/ApexWebApp/setupStatus.png";
 //Apex Web App
 
+//Apex order status
+import APEX_ORDER_STATUS_BANNER from "../assets/ApexOrderStatus/banner.png";
+import APEX_ORDER_STATUS from "../assets/ApexOrderStatus/orderstatus.png";
+import APEX_ORDER_STATUS_LOGGEDIN from "../assets/ApexOrderStatus/loggedInSupport.png";
+//Apex order status
+
 export const ALL_PROJECTS = [
   {
     title: "Apex Gaming",
@@ -132,40 +138,6 @@ export const ALL_PROJECTS = [
       {
         img: RECOMMENDED_PROD_IMG,
         desc: "This is the recommended products section. User can assign any products on the admin dashbaord to a product which will be visible on the PDP of that product. user can add these products to cart",
-      },
-    ],
-  },
-  {
-    title: "Apex Software and Qc",
-    description:
-      "This website is to handle all the QA stuff and the software stuff. This is a MVC project build using NODDEJS. Once the computer is build using the apex inventory app then all the next processes are handled freom this application. This app is integrated with UPS to to generate the trackig number for orders and fulfill the order in Shopify.",
-    bannerImage: APEX_WEB_BANNER,
-    profileImage: APEX_PROFILE_IMG,
-    navlink: "/ApexWebApp",
-    images: [
-      {
-        img: APEX_WEB_LANDING,
-        desc: "This is the landing page, where you can see all the operation that can be perfrom from this application.",
-      },
-      {
-        img: APEX_WEB_ORDER_MAIN,
-        desc: "Admin can search any specific order to see the details. Here admin can see the information what is the status of the order, if its in build status, or setup or is it shipped.",
-      },
-      {
-        img: APEX_WEB_ORDER_PARTS,
-        desc: "You can see all the aprts associated with the order.",
-      },
-      {
-        img: APEX_WEB_BUILD_STATUS,
-        desc: "On build page there are multiple checkboxes where admin will check one by one to make sure that all the parts are added to the order.",
-      },
-      {
-        img: APEX_WEB_SETUP_STATUS,
-        desc: "Admin can verify if all the sotwares, drivers, peripherals and all the accessories are added to the order. If there was a ram speed test and we want send an email to customer that is also done from this page.",
-      },
-      {
-        img: APEX_WEB_SHIPPING_STATUS,
-        desc: "On the shipping page you can see who packed the order and who shipped the order. You can also see the tracking number of the order. If there are any draft orders then order is not shipped to customer.",
       },
     ],
   },
@@ -216,6 +188,58 @@ export const ALL_PROJECTS = [
       {
         img: APEX_INVENTORY_SEQ_REORDER,
         desc: "This page help to know how many part we need to fulfill specific number of order, or till specific order number or How many parts we can buy with the specific amount of money.",
+      },
+    ],
+  },
+  {
+    title: "Apex Software and Qc",
+    description:
+      "This website is to handle all the QA stuff and the software stuff. This is a MVC project built using NodeJS. Once the computer is build using the apex inventory app then all the next processes are handled freom this application. This app is integrated with UPS to to generate the trackig number for orders and fulfill the order in Shopify.",
+    bannerImage: APEX_WEB_BANNER,
+    profileImage: APEX_PROFILE_IMG,
+    navlink: "/ApexWebApp",
+    images: [
+      {
+        img: APEX_WEB_LANDING,
+        desc: "This is the landing page, where you can see all the operation that can be perfrom from this application.",
+      },
+      {
+        img: APEX_WEB_ORDER_MAIN,
+        desc: "Admin can search any specific order to see the details. Here admin can see the information what is the status of the order, if its in build status, or setup or is it shipped.",
+      },
+      {
+        img: APEX_WEB_ORDER_PARTS,
+        desc: "You can see all the aprts associated with the order.",
+      },
+      {
+        img: APEX_WEB_BUILD_STATUS,
+        desc: "On build page there are multiple checkboxes where admin will check one by one to make sure that all the parts are added to the order.",
+      },
+      {
+        img: APEX_WEB_SETUP_STATUS,
+        desc: "Admin can verify if all the sotwares, drivers, peripherals and all the accessories are added to the order. If there was a ram speed test and we want send an email to customer that is also done from this page.",
+      },
+      {
+        img: APEX_WEB_SHIPPING_STATUS,
+        desc: "On the shipping page you can see who packed the order and who shipped the order. You can also see the tracking number of the order. If there are any draft orders then order is not shipped to customer.",
+      },
+    ],
+  },
+  {
+    title: "Apex Order Status",
+    description:
+      "This website is for the customer to track their order. This is a MVC project built using NodeJS. Here the admins can login and manually change the status as well of there was an issue on the flow of the order.",
+    bannerImage: APEX_ORDER_STATUS_BANNER,
+    profileImage: APEX_PROFILE_IMG,
+    navlink: "/ApexOrderStatus",
+    images: [
+      {
+        img: APEX_ORDER_STATUS,
+        desc: "This is the order status page. Here user can see the status of their order.",
+      },
+      {
+        img: APEX_ORDER_STATUS_LOGGEDIN,
+        desc: "This is the logged in support page. Here admin can manually change the status of the order.",
       },
     ],
   },
