@@ -9,6 +9,7 @@ import M_ALPHABET_IMG from "../assets/m.png";
 import R_ALPHABET_IMG from "../assets/r.png";
 import T_ALPHABET_IMG from "../assets/t.png";
 import I_ALPHABET_IMG from "../assets/I.png";
+import O_ALPHABET_IMG from "../assets/o.png";
 import S_ALPHABET_IMG from "../assets/s_alphabet.png";
 
 //APEXgAMING
@@ -451,6 +452,11 @@ export const NAV_ARRAY = [
     link: "/ApexWebApp",
     title: "Apex Software and QC",
     img: A_ALPHABET_IMG,
+  },
+  {
+    link: "/ApexOrderStatus",
+    title: "Apex Order Status",
+    img: O_ALPHABET_IMG,
   },
   {
     link: "/Selli",
