@@ -95,13 +95,13 @@ function Sidebar() {
               />
             </a>
             <a
-              href="https://join.skype.com/invite/pnDyBtQy7LdR"
+              href="https://github.com/izumshahid"
               target="_blank"
               className="text-white text-2xl"
             >
               <img
-                src="https://img.icons8.com/color/48/skype--v1.png"
-                alt="facebook"
+                src="https://img.icons8.com/ios-filled/50/github.png"
+                alt="github"
                 className="w-8 h-8 hover:scale-125 transition-all duration-300 ease-in-out"
               />
             </a>
