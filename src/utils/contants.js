@@ -8,6 +8,7 @@ import N_ALPHABET_IMG from "../assets/n.png";
 import M_ALPHABET_IMG from "../assets/m.png";
 import R_ALPHABET_IMG from "../assets/r.png";
 import T_ALPHABET_IMG from "../assets/t.png";
+import I_ALPHABET_IMG from "../assets/i.png";
 import S_ALPHABET_IMG from "../assets/s_alphabet.png";
 
 //APEXgAMING
@@ -79,6 +80,30 @@ import SELLI_ROI from "../assets/selli/roi.jpg";
 import SELLI_VALUABLE_CUSTOMER from "../assets/selli/valuablecustomer.jpg";
 //Selli
 
+//Apex Inventory Management
+import APEX_INVENTORY_ALLREPORTS from "../assets/ApexInventory/allReports.png";
+import APEX_INVENTORY_BREAKDOWN from "../assets/ApexInventory/breakdown.png";
+import APEX_INVENTORY_CHOOSEITEM from "../assets/ApexInventory/chooseItemGlobally.png";
+import APEX_INVENTORY_HOMEPAGE from "../assets/ApexInventory/HomePage.png";
+import APEX_INVENTORY_PART_DETAIL from "../assets/ApexInventory/partDetailPage.png";
+import APEX_INVENTORY_PERMISSIONS from "../assets/ApexInventory/permissions.png";
+import APEX_INVENTORY_ACQUISITION_REPORT from "../assets/ApexInventory/qcquisitionReport.png";
+import APEX_INVENTORY_QUEUE_POSITION from "../assets/ApexInventory/queuePosition.png";
+import APEX_INVENTORY_RMA from "../assets/ApexInventory/rma.png";
+import APEX_INVENTORY_SEQ_REORDER from "../assets/ApexInventory/seqReOrder.png";
+import APEX_INVENTORY_BANNER from "../assets/ApexInventory/banner.png";
+//Apex Inventory Management
+
+//Apex Web App
+import APEX_WEB_BANNER from "../assets/ApexWebApp/banner.png";
+import APEX_WEB_LANDING from "../assets/ApexWebApp/landing.png";
+import APEX_WEB_ORDER_MAIN from "../assets/ApexWebApp/OrderMainPage.png";
+import APEX_WEB_ORDER_PARTS from "../assets/ApexWebApp/OrderParts.png";
+import APEX_WEB_SHIPPING_STATUS from "../assets/ApexWebApp/shippingStatus.png";
+import APEX_WEB_BUILD_STATUS from "../assets/ApexWebApp/buildStatus.png";
+import APEX_WEB_SETUP_STATUS from "../assets/ApexWebApp/setupStatus.png";
+//Apex Web App
+
 export const ALL_PROJECTS = [
   {
     title: "Apex Gaming",
@@ -107,6 +132,90 @@ export const ALL_PROJECTS = [
       {
         img: RECOMMENDED_PROD_IMG,
         desc: "This is the recommended products section. User can assign any products on the admin dashbaord to a product which will be visible on the PDP of that product. user can add these products to cart",
+      },
+    ],
+  },
+  {
+    title: "Apex Software and Qc",
+    description:
+      "This website is to handle all the QA stuff and the software stuff. This is a MVC project build using NODDEJS. Once the computer is build using the apex inventory app then all the next processes are handled freom this application. This app is integrated with UPS to to generate the trackig number for orders and fulfill the order in Shopify.",
+    bannerImage: APEX_WEB_BANNER,
+    profileImage: APEX_PROFILE_IMG,
+    navlink: "/ApexWebApp",
+    images: [
+      {
+        img: APEX_WEB_LANDING,
+        desc: "This is the landing page, where you can see all the operation that can be perfrom from this application.",
+      },
+      {
+        img: APEX_WEB_ORDER_MAIN,
+        desc: "Admin can search any specific order to see the details. Here admin can see the information what is the status of the order, if its in build status, or setup or is it shipped.",
+      },
+      {
+        img: APEX_WEB_ORDER_PARTS,
+        desc: "You can see all the aprts associated with the order.",
+      },
+      {
+        img: APEX_WEB_BUILD_STATUS,
+        desc: "On build page there are multiple checkboxes where admin will check one by one to make sure that all the parts are added to the order.",
+      },
+      {
+        img: APEX_WEB_SETUP_STATUS,
+        desc: "Admin can verify if all the sotwares, drivers, peripherals and all the accessories are added to the order. If there was a ram speed test and we want send an email to customer that is also done from this page.",
+      },
+      {
+        img: APEX_WEB_SHIPPING_STATUS,
+        desc: "On the shipping page you can see who packed the order and who shipped the order. You can also see the tracking number of the order. If there are any draft orders then order is not shipped to customer.",
+      },
+    ],
+  },
+  {
+    title: "Apex Inventory Management",
+    description:
+      "Apex Inventory Management is a custom inventory management website. It is a full-stack project built with React, NodeJS, ExpressJS, MongoDB, and Ant Design. It is a fully responsive website with a mobile-first approach.",
+    bannerImage: APEX_INVENTORY_BANNER,
+    profileImage: APEX_PROFILE_IMG,
+    navlink: "/ApexInventoryManagement",
+    images: [
+      {
+        img: APEX_INVENTORY_ALLREPORTS,
+        desc: "You can download all the reports in the form of CSV to get the details of the inventory.",
+      },
+      {
+        img: APEX_INVENTORY_BREAKDOWN,
+        desc: "When an order is cancelled, the product will be added to the breakdown section. Here admin can see the details of the product. All the parts which were added to this order will then be added back to the inventory.",
+      },
+      {
+        img: APEX_INVENTORY_CHOOSEITEM,
+        desc: "There are some issues with the inventory app name convension and the names or product visible on the live store, so this functionality is added to choose the product globally where you give a name that is visible to customer and then that name will be converted to the inventory product name so that mapping of names wont be an issue.",
+      },
+      {
+        img: APEX_INVENTORY_HOMEPAGE,
+        desc: "Landig page where you can see all the parts we have in the inventory. You can also see the details of the product by clicking on the product.",
+      },
+      {
+        img: APEX_INVENTORY_PART_DETAIL,
+        desc: "This is the part detail page. Here admin can see the details of the product and can edit the details of the product. Admin ca see how many order needs this part, how many order get this part. How many purchase order we have creted for this part in short all the details of the product.",
+      },
+      {
+        img: APEX_INVENTORY_PERMISSIONS,
+        desc: "Inventory app is having the role based permissions. Here admin can see the details of the permissions and can assign the permissions to the user.",
+      },
+      {
+        img: APEX_INVENTORY_ACQUISITION_REPORT,
+        desc: "This is the acquisition report page. Here admin can see the details of the acquisition report.",
+      },
+      {
+        img: APEX_INVENTORY_QUEUE_POSITION,
+        desc: "On this page all the order are listed based on the priority and their due date. So order are fulfilled based on the priority and due date.",
+      },
+      {
+        img: APEX_INVENTORY_RMA,
+        desc: "RMA page is used to create the return order. Here admin can see the details of the return order and can create the return order. and having graphical representation of the return order.",
+      },
+      {
+        img: APEX_INVENTORY_SEQ_REORDER,
+        desc: "This page help to know how many part we need to fulfill specific number of order, or till specific order number or How many parts we can buy with the specific amount of money.",
       },
     ],
   },
@@ -307,6 +416,16 @@ export const NAV_ARRAY = [
   {
     link: "/ApexGaming",
     title: "Apex Gaming",
+    img: A_ALPHABET_IMG,
+  },
+  {
+    link: "/ApexInventoryManagement",
+    title: "Inventory Management",
+    img: I_ALPHABET_IMG,
+  },
+  {
+    link: "/ApexWebApp",
+    title: "Apex Software and QC",
     img: A_ALPHABET_IMG,
   },
   {
