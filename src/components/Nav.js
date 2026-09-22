@@ -36,8 +36,8 @@ export default function Nav() {
     <>
       <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:pt-5">
         <nav
-          className={`flex w-full max-w-3xl items-center gap-2 rounded-full px-2 py-2 transition-all duration-500 sm:px-3 ${
-            scrolled || open ? "glass-strong shadow-xl shadow-black/10" : ""
+          className={`nav-surface flex w-full max-w-3xl items-center gap-2 rounded-full px-2 py-2 transition-all duration-500 sm:px-3 ${
+            scrolled || open ? "nav-surface--solid" : ""
           }`}
         >
           <Link
@@ -116,7 +116,7 @@ export default function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="glass-strong fixed inset-0 z-40 flex flex-col justify-center px-8 sm:hidden"
+            className="scrim fixed inset-0 z-40 flex flex-col justify-center px-8 sm:hidden"
           >
             {NAV_LINKS.map((link, i) => (
               <motion.div
