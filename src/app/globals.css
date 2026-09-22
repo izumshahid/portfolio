@@ -1,37 +1,297 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-} */
+/* Theme is driven by data-theme on <html>; dark is the default. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Aurora palette */
+  --color-violet: #a855f7;
+  --color-cyan: #22d3ee;
+  --color-magenta: #e879f9;
+
+  --animate-drift-a: drift-a 26s ease-in-out infinite;
+  --animate-drift-b: drift-b 32s ease-in-out infinite;
+  --animate-drift-c: drift-c 38s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ---------------------------------------------------------------
+   Semantic surface tokens. Dark is the intended design; light is a
+   separate treatment where the aurora softens to pastel on off-white
+   rather than a naive inversion.
+   --------------------------------------------------------------- */
+:root,
+[data-theme="dark"] {
+  --canvas: #08080c;
+  --surface: 255 255 255 / 0.04;
+  --surface-strong: 255 255 255 / 0.07;
+  --hairline: 255 255 255 / 0.1;
+  --hairline-strong: 255 255 255 / 0.18;
+  --text: #f4f4f6;
+  --text-muted: #9a9aa8;
+  --text-faint: #6a6a78;
+  --glow: 168 85 247 / 0.35;
+  --hover: 255 255 255 / 0.1;
+  --control: 255 255 255 / 0.1;
+  --highlight: 255 255 255 / 0.22;
+  --aurora-opacity: 0.55;
+  --aurora-blur: 120px;
+  --noise-opacity: 0.035;
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --canvas: #fbfbfd;
+  --surface: 255 255 255 / 0.7;
+  --surface-strong: 255 255 255 / 0.85;
+  --hairline: 10 10 20 / 0.08;
+  --hairline-strong: 10 10 20 / 0.16;
+  --text: #16161c;
+  --text-muted: #5c5c6b;
+  --text-faint: #8a8a99;
+  --glow: 168 85 247 / 0.22;
+  --hover: 10 10 20 / 0.06;
+  --control: 10 10 20 / 0.05;
+  --highlight: 255 255 255 / 0.9;
+  --aurora-opacity: 0.4;
+  --aurora-blur: 130px;
+  --noise-opacity: 0.02;
+  color-scheme: light;
+}
+
+@layer base {
+  * {
+    border-color: rgb(var(--hairline));
   }
-} */
 
-/* body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
 
-/* Chrome, Safari and Opera */
+  body {
+    background-color: var(--canvas);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgb(168 85 247 / 0.3);
+    color: var(--text);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-violet);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--hairline-strong));
+    border-radius: 99px;
+    border: 3px solid var(--canvas);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--glow));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Text tokens */
+  .text-primary {
+    color: var(--text);
+  }
+  .text-muted {
+    color: var(--text-muted);
+  }
+  .text-faint {
+    color: var(--text-faint);
+  }
+
+  /* Glass is deliberately rationed: nav pill, cards, portrait frame.
+     The top-edge highlight is what reads as real glass rather than a
+     blurred div. */
+  .glass {
+    background: rgb(var(--surface));
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgb(var(--hairline));
+    position: relative;
+  }
+
+  .glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      160deg,
+      rgb(var(--highlight)),
+      rgb(255 255 255 / 0) 42%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .glass-strong {
+    background: rgb(var(--surface-strong));
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    border: 1px solid rgb(var(--hairline));
+  }
+
+  .hairline {
+    border-color: rgb(var(--hairline));
+  }
+
+  /* Hover and control fills follow the theme. A literal white/10 wash
+     vanishes on the light canvas, so both go through tokens. */
+  .hover-surface {
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+  }
+  .hover-surface:hover {
+    background-color: rgb(var(--hover));
+  }
+
+  .control {
+    background-color: rgb(var(--control));
+  }
+
+  .btn-solid {
+    background: var(--text);
+    color: var(--canvas);
+  }
+
+  /* Small monospace metadata labels */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .glow-violet {
+    box-shadow: 0 0 60px -12px rgb(var(--glow));
+  }
+}
+
+/* ---------------------------------------------------------------
+   Aurora: three blurred radial blobs on slow independent loops.
+   Pure CSS transforms so it stays on the compositor — no canvas,
+   no WebGL, negligible battery cost.
+   --------------------------------------------------------------- */
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(12vw, 8vh, 0) scale(1.18);
+  }
+  66% {
+    transform: translate3d(-8vw, 14vh, 0) scale(0.92);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  40% {
+    transform: translate3d(-16vw, 10vh, 0) scale(0.85);
+  }
+  70% {
+    transform: translate3d(10vw, -8vh, 0) scale(1.25);
+  }
+}
+
+@keyframes drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  50% {
+    transform: translate3d(14vw, -12vh, 0) scale(1.2);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(var(--aurora-blur));
+  opacity: var(--aurora-opacity);
+  will-change: transform;
+}
+
+/* Film grain over the gradient. Without this, large soft gradients
+   band badly on 8-bit displays and read as a template. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
-
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
