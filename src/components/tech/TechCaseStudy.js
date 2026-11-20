@@ -44,7 +44,6 @@ export default function TechCaseStudy({ project }) {
           <h1 className="t-mono text-[clamp(2.4rem,7vw,4.6rem)] font-semibold leading-none tracking-[-0.04em] text-primary">
             {project.title}
           </h1>
-          {project.exclusive && <span className="t-badge">exclusive</span>}
         </div>
         <p className="mt-5 max-w-2xl text-xl leading-relaxed text-muted">{project.tagline}</p>
         <div className="mt-6 flex flex-wrap gap-2">

@@ -1,4 +1,4 @@
-import Timeline from "./Timeline";
+import ProjectsView from "./ProjectsView";
 import { SectionHead } from "./TechHome";
 import { ALL_PROJECTS } from "@/data/projects";
 
@@ -12,7 +12,7 @@ export default function TechWork() {
           lead="The full archive as a timeline, including projects that are not listed on the public site."
         />
       </section>
-      <Timeline projects={ALL_PROJECTS} />
+      <ProjectsView projects={ALL_PROJECTS} />
     </>
   );
 }

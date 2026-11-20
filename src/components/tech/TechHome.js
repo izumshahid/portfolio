@@ -1,5 +1,5 @@
 import TechHero from "./TechHero";
-import Timeline from "./Timeline";
+import ProjectsView from "./ProjectsView";
 import { Reveal, Stagger, StaggerItem } from "../Motion";
 import { ALL_PROJECTS } from "@/data/projects";
 import { SKILL_GROUPS } from "@/data/site";
@@ -27,11 +27,11 @@ export default function TechHome() {
         <SectionHead
           cmd="ls ./projects --timeline"
           title="Shipped, in sequence."
-          lead="Scroll to walk the timeline. Each node is a system that went into production."
+          lead="Walk the timeline or switch to the grid. Each entry is a system that went into production."
         />
       </section>
 
-      <Timeline projects={ALL_PROJECTS} />
+      <ProjectsView projects={ALL_PROJECTS} />
 
       <section className="relative z-10 mx-auto max-w-6xl px-6 pt-28">
         <SectionHead cmd="cat toolchain.json" title="What it runs on." />
