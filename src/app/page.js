@@ -3,11 +3,13 @@ import Hero from "@/components/Hero";
 import Section from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
 import Contact from "@/components/Contact";
+import ModeView from "@/components/ModeView";
+import TechHome from "@/components/tech/TechHome";
 import { Reveal, Stagger, StaggerItem } from "@/components/Motion";
 import { FEATURED_PROJECTS, PROJECTS } from "@/data/projects";
 import { SKILL_GROUPS } from "@/data/site";
 
-export default function Home() {
+function PublicHome() {
   return (
     <>
       <Hero />
@@ -113,4 +115,8 @@ export default function Home() {
       <Contact />
     </>
   );
+}
+
+export default function Home() {
+  return <ModeView normal={<PublicHome />} tech={<TechHome />} />;
 }

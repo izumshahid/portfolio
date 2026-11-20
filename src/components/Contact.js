@@ -1,6 +1,7 @@
 "use client";
 
 import { SITE, SOCIALS } from "@/data/site";
+import SocialIcon from "./SocialIcon";
 import { Magnetic, Reveal, Stagger, StaggerItem } from "./Motion";
 
 export default function Contact() {
@@ -63,7 +64,10 @@ export default function Contact() {
               rel="noreferrer"
               className="glass group flex items-center justify-between gap-4 rounded-2xl px-5 py-4 hover-surface"
             >
-              <span className="min-w-0">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border text-muted transition-colors group-hover:text-primary hairline control">
+                <SocialIcon name={social.label} className="h-[18px] w-[18px]" />
+              </span>
+              <span className="min-w-0 flex-1">
                 <span className="label block">{social.label}</span>
                 <span className="mt-1 block truncate text-sm text-primary">
                   {social.handle}

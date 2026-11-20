@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal, Stagger, StaggerItem } from "@/components/Motion";
 import Contact from "@/components/Contact";
-import { PROJECTS, getAdjacentProjects, getProject } from "@/data/projects";
+import ModeView from "@/components/ModeView";
+import TechCaseStudy from "@/components/tech/TechCaseStudy";
+import { ALL_PROJECTS, PROJECTS, getAdjacentProjects, getProject } from "@/data/projects";
 
 export function generateStaticParams() {
-  return PROJECTS.map((project) => ({ slug: project.slug }));
+  return ALL_PROJECTS.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }) {
@@ -15,6 +17,8 @@ export async function generateMetadata({ params }) {
   if (!project) return {};
 
   return {
+    // Exclusive projects are not meant to be discovered through search.
+    ...(project.exclusive && { robots: { index: false, follow: false } }),
     title: project.title,
     description: project.tagline,
     openGraph: {
@@ -30,6 +34,28 @@ export default async function CaseStudy({ params }) {
   const project = getProject(slug);
   if (!project) notFound();
 
+  return (
+    <ModeView
+      normal={project.exclusive ? <Unavailable /> : <PublicCaseStudy project={project} />}
+      tech={<TechCaseStudy project={project} />}
+    />
+  );
+}
+
+function Unavailable() {
+  return (
+    <section className="mx-auto max-w-3xl px-6 pb-24 pt-44 text-center">
+      <h1 className="text-3xl font-semibold tracking-tight text-primary">Page not found</h1>
+      <p className="mt-4 text-muted">This project is not available.</p>
+      <Link href="/work" className="mt-8 inline-block text-sm text-primary underline">
+        Back to work
+      </Link>
+    </section>
+  );
+}
+
+function PublicCaseStudy({ project }) {
+  const slug = project.slug;
   const { prev, next } = getAdjacentProjects(slug);
   const index = PROJECTS.findIndex((p) => p.slug === slug);
 
