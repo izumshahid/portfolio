@@ -1,3 +1,4 @@
+import { EXCLUSIVE_PROJECTS } from "./exclusive";
 // Apex Gaming
 import APEX_BANNER_IMG from "@/assets/apex/banner.png";
 import CONFIGURATOR_IMG from "@/assets/apex/configurator.png";
@@ -516,15 +517,19 @@ export const PROJECTS = [
 
 export const FEATURED_PROJECTS = PROJECTS.filter((p) => p.featured);
 
+// Everything, including projects that are only shown in the tech view.
+// Exclusive projects come first so they lead the timeline.
+export const ALL_PROJECTS = [...EXCLUSIVE_PROJECTS, ...PROJECTS];
+
 export function getProject(slug) {
-  return PROJECTS.find((p) => p.slug === slug);
+  return ALL_PROJECTS.find((p) => p.slug === slug);
 }
 
-export function getAdjacentProjects(slug) {
-  const index = PROJECTS.findIndex((p) => p.slug === slug);
+export function getAdjacentProjects(slug, list = PROJECTS) {
+  const index = list.findIndex((p) => p.slug === slug);
   if (index === -1) return { prev: null, next: null };
   return {
-    prev: index > 0 ? PROJECTS[index - 1] : PROJECTS[PROJECTS.length - 1],
-    next: index < PROJECTS.length - 1 ? PROJECTS[index + 1] : PROJECTS[0],
+    prev: index > 0 ? list[index - 1] : list[list.length - 1],
+    next: index < list.length - 1 ? list[index + 1] : list[0],
   };
 }

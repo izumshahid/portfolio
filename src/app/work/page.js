@@ -1,6 +1,8 @@
 import ProjectCard from "@/components/ProjectCard";
 import Contact from "@/components/Contact";
 import { Reveal } from "@/components/Motion";
+import ModeView from "@/components/ModeView";
+import TechWork from "@/components/tech/TechWork";
 import { PROJECTS } from "@/data/projects";
 
 export const metadata = {
@@ -9,7 +11,7 @@ export const metadata = {
     "Selected projects — commerce platforms, inventory and fulfilment systems, Shopify apps and internal tooling.",
 };
 
-export default function WorkIndex() {
+function PublicWorkIndex() {
   return (
     <>
       <section className="mx-auto max-w-6xl px-6 pb-16 pt-36 sm:pt-44">
@@ -40,4 +42,8 @@ export default function WorkIndex() {
       <Contact />
     </>
   );
+}
+
+export default function WorkIndex() {
+  return <ModeView normal={<PublicWorkIndex />} tech={<TechWork />} />;
 }

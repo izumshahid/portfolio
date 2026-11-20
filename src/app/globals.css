@@ -347,3 +347,213 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ===============================================================
+   TECH VIEW
+   Switched on by data-mode="tech" on <html> (set before paint by an
+   inline script, so there is no flash). Both trees are rendered and
+   CSS picks one — no hydration mismatch, no flicker.
+   =============================================================== */
+.only-normal {
+  display: contents;
+}
+.only-tech {
+  display: none;
+}
+html[data-mode="tech"] .only-normal {
+  display: none;
+}
+html[data-mode="tech"] .only-tech {
+  display: contents;
+}
+
+:root {
+  --t-cyan: #2de2ff;
+  --t-lime: #b8ff3d;
+  --t-pink: #ff3d9a;
+}
+
+/* Tech is always dark, whatever the light/dark toggle says. Re-pointing the
+   shared tokens also re-skins any shared page (About) for free. */
+html[data-mode="tech"] {
+  --canvas: #04070a;
+  --canvas-rgb: 4 7 10;
+  --surface: 10 20 26 / 0.7;
+  --surface-strong: 14 28 36 / 0.85;
+  --hairline: 45 226 255 / 0.14;
+  --hairline-strong: 45 226 255 / 0.32;
+  --text: #dbe9ee;
+  --text-muted: #8196a1;
+  --text-faint: #566a75;
+  --glow: 45 226 255 / 0.35;
+  --hover: 45 226 255 / 0.08;
+  --control: 45 226 255 / 0.08;
+  --highlight: 45 226 255 / 0.3;
+  --noise-opacity: 0.025;
+  color-scheme: dark;
+}
+
+html[data-mode="tech"] ::selection {
+  background: rgb(45 226 255 / 0.3);
+}
+html[data-mode="tech"] :focus-visible {
+  outline-color: var(--t-cyan);
+}
+
+@layer components {
+  /* A "window": hard 1px edge, tiny radius, corner brackets on hover. */
+  .t-window {
+    position: relative;
+    background: rgb(8 16 22 / 0.78);
+    border: 1px solid rgb(var(--hairline));
+    border-radius: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+  .t-window__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.8rem;
+    border-bottom: 1px solid rgb(var(--hairline));
+    background: rgb(45 226 255 / 0.04);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+  }
+  .t-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgb(var(--hairline-strong));
+  }
+
+  .t-mono {
+    font-family: var(--font-mono);
+  }
+  .t-cyan {
+    color: var(--t-cyan);
+  }
+  .t-lime {
+    color: var(--t-lime);
+  }
+
+  .t-chip {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid rgb(var(--hairline));
+    border-radius: 4px;
+    color: var(--text-muted);
+    background: rgb(45 226 255 / 0.04);
+  }
+
+  .t-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--t-cyan);
+    color: var(--t-cyan);
+    border-radius: 6px;
+    background: rgb(45 226 255 / 0.06);
+    transition: background-color 0.2s, box-shadow 0.2s, color 0.2s;
+  }
+  .t-btn:hover {
+    background: var(--t-cyan);
+    color: #031014;
+    box-shadow: 0 0 24px rgb(45 226 255 / 0.45);
+  }
+
+  .t-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    color: #0a1a00;
+    background: var(--t-lime);
+    box-shadow: 0 0 14px rgb(184 255 61 / 0.4);
+  }
+
+  /* Cursor-following light inside a card, driven by --mx / --my. */
+  .t-spot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: radial-gradient(
+      380px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(45 226 255 / 0.14),
+      transparent 55%
+    );
+  }
+  .t-spot:hover::after {
+    opacity: 1;
+  }
+  .t-spot:hover {
+    border-color: rgb(var(--hairline-strong));
+    box-shadow: 0 0 40px -16px rgb(45 226 255 / 0.6);
+  }
+}
+
+.t-gridbg {
+  background-image: linear-gradient(rgb(45 226 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(45 226 255 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 85%);
+}
+
+.t-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.018) 0,
+    rgb(255 255 255 / 0.018) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+@keyframes t-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.t-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--t-cyan);
+  animation: t-blink 1s steps(1) infinite;
+}
+
+/* Chromatic-split glitch on hover. */
+@keyframes t-glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+}
+.t-glitch {
+  position: relative;
+}
+.t-glitch:hover {
+  animation: t-glitch 0.35s steps(2) 1;
+  text-shadow: -2px 0 var(--t-pink), 2px 0 var(--t-cyan);
+}
+
+@keyframes t-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(45 226 255 / 0.55); }
+  50% { box-shadow: 0 0 0 9px rgb(45 226 255 / 0); }
+}

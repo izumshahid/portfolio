@@ -156,3 +156,7 @@ export const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/#contact", label: "Contact" },
 ];
+
+// Opening any page with ?access=lab switches the site to the tech view for
+// the rest of the browser session and unlocks the exclusive projects.
+export const TECH_ACCESS = { param: "access", value: "lab", storageKey: "view-mode" };
