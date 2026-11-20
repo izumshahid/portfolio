@@ -5,12 +5,14 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Timeline from "./Timeline";
+import ExploreMap from "./ExploreMap";
 import { TiltCard } from "./Interactive";
 
 const KEY = "tech-layout";
 const OPTIONS = [
   { id: "timeline", label: "timeline" },
   { id: "grid", label: "grid" },
+  { id: "explore", label: "explore" },
 ];
 
 /** Lets the visitor pick how the projects are laid out. Remembered per tab. */
@@ -26,6 +28,7 @@ export default function ProjectsView({ projects }) {
 
   const choose = (id) => {
     setLayout(id);
+    if (id === "explore") return; // the map is never the remembered default
     try {
       sessionStorage.setItem(KEY, id);
     } catch {}
@@ -56,7 +59,9 @@ export default function ProjectsView({ projects }) {
         </div>
       </div>
 
-      {layout === "timeline" ? <Timeline projects={projects} /> : <ProjectGrid projects={projects} />}
+      {layout === "timeline" && <Timeline projects={projects} />}
+      {layout === "grid" && <ProjectGrid projects={projects} />}
+      {layout === "explore" && <ExploreMap projects={projects} />}
     </>
   );
 }
