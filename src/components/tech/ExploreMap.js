@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const CYAN = "#2de2ff";
 const LIME = "#b6ff3c";
@@ -116,8 +117,11 @@ function buildWorld(projects) {
  * into the project card; click it to go to the case study.
  */
 export default function ExploreMap({ projects }) {
-  const router = useRouter();
   const wrapRef = useRef(null);
+  const selRef = useRef(-1);
+  const fullRef = useRef(false);
+  const [full, setFull] = useState(false);
+  const [sel, setSel] = useState(-1);
   const canvasRef = useRef(null);
   const api = useRef({});
 
@@ -166,8 +170,26 @@ export default function ExploreMap({ projects }) {
       clampCam();
     };
 
+    // The island is parked beside the detail panel: left of it on desktop,
+    // above it on phones.
     const flyTo = (x, y, s) => {
-      target = { x, y, s: clamp(s, fit, MAX_SCALE) };
+      const wide = window.innerWidth >= 768;
+      target = {
+        x,
+        y,
+        s: clamp(s, fit, MAX_SCALE),
+        offX: wide ? 190 : 0,
+        offY: wide ? 0 : VH * 0.2,
+      };
+    };
+
+    const select = (i) => {
+      selRef.current = i;
+      setSel(i);
+      if (i >= 0) {
+        const isl = world.islands[i];
+        flyTo(isl.x, isl.y, window.innerWidth >= 768 ? 1.2 : 0.95);
+      }
     };
 
     const fitView = () => {
@@ -359,7 +381,7 @@ export default function ExploreMap({ projects }) {
         }
       }
 
-      world.islands.forEach((isl, i) => drawIsland(isl, i === hover));
+      world.islands.forEach((isl, i) => drawIsland(isl, i === hover || i === selRef.current));
 
       // Route: a dashed trail through every island, in order
       const pts = world.islands;
@@ -398,7 +420,7 @@ export default function ExploreMap({ projects }) {
 
       const cardA = clamp((cam.s - 0.7) / 0.25, 0, 1);
       world.islands.forEach((isl, i) => {
-        if (cardA > 0) drawCard(isl, cardA, i === hover);
+        if (cardA > 0) drawCard(isl, cardA, i === hover || i === selRef.current);
       });
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -406,7 +428,7 @@ export default function ExploreMap({ projects }) {
         const sx = (isl.x - cam.x) * cam.s;
         const sy = (isl.y - cam.y) * cam.s;
         if (sx < -80 || sx > VW + 80 || sy < -80 || sy > VH + 80) return;
-        drawPin(isl, i, 1 - cardA, i === hover);
+        drawPin(isl, i, 1 - cardA, i === hover || i === selRef.current);
       });
     };
 
@@ -415,10 +437,12 @@ export default function ExploreMap({ projects }) {
       if (target) {
         const k = 1 - Math.pow(0.0008, dt);
         cam.s += (target.s - cam.s) * k;
-        cam.x += (target.x - VW / (2 * cam.s) - cam.x) * k;
-        cam.y += (target.y - VH / (2 * cam.s) - cam.y) * k;
+        const gx = target.x + (target.offX ?? 0) / cam.s - VW / (2 * cam.s);
+        const gy = target.y + (target.offY ?? 0) / cam.s - VH / (2 * cam.s);
+        cam.x += (gx - cam.x) * k;
+        cam.y += (gy - cam.y) * k;
         clampCam();
-        if (Math.abs(target.s - cam.s) < 0.003 && Math.hypot(target.x - VW / (2 * cam.s) - cam.x, target.y - VH / (2 * cam.s) - cam.y) < 1) {
+        if (Math.abs(target.s - cam.s) < 0.003 && Math.hypot(gx - cam.x, gy - cam.y) < 1) {
           target = null;
         }
       }
@@ -444,7 +468,9 @@ export default function ExploreMap({ projects }) {
     const resize = () => {
       if (!wrapRef.current) return;
       const w = wrapRef.current.clientWidth;
-      const h = clamp(Math.round(w * 0.62), 480, 680);
+      const h = fullRef.current
+        ? wrapRef.current.clientHeight
+        : clamp(Math.round(w * 0.62), w < 640 ? 580 : 480, 680);
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const first = !VW;
       canvas.width = w * dpr;
@@ -511,9 +537,7 @@ export default function ExploreMap({ projects }) {
       if (!had || drag.moved > 6 || pointers.size) return;
       const i = hit(x, y);
       if (i < 0) return;
-      const isl = world.islands[i];
-      if (cam.s < 0.85) flyTo(isl.x, isl.y, 1.25);
-      else router.push(`/work/${isl.project.slug}`);
+      select(i);
     };
     const leave = () => {
       hover = -1;
@@ -525,7 +549,16 @@ export default function ExploreMap({ projects }) {
       zoomAt(x, y, Math.exp(-e.deltaY * 0.0016));
     };
 
+    const onKey = (e) => {
+      if (e.key !== "Escape") return;
+      if (selRef.current >= 0) select(-1);
+      else if (fullRef.current) api.current.exitFull?.();
+    };
+    window.addEventListener("keydown", onKey);
+
     api.current = {
+      resize,
+      select,
       zoom: (f) => {
         target = null;
         zoomAt(VW / 2, VH / 2, f);
@@ -562,25 +595,85 @@ export default function ExploreMap({ projects }) {
       canvas.removeEventListener("pointercancel", up);
       canvas.removeEventListener("pointerleave", leave);
       canvas.removeEventListener("wheel", wheel);
+      window.removeEventListener("keydown", onKey);
     };
-  }, [projects, router]);
+  }, [projects]);
+
+  // Full screen: a fixed overlay everywhere, plus the browser's own full
+  // screen where it is supported so the browser chrome goes away too.
+  useEffect(() => {
+    fullRef.current = full;
+    document.body.style.overflow = full ? "hidden" : "";
+    api.current.resize?.();
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [full]);
+
+  useEffect(() => {
+    const onFs = () => {
+      if (!document.fullscreenElement) setFull(false);
+    };
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
+
+  const enterFull = () => {
+    setFull(true);
+    try {
+      wrapRef.current?.requestFullscreen?.().catch(() => {});
+    } catch {}
+  };
+  const exitFull = () => {
+    setFull(false);
+    try {
+      if (document.fullscreenElement) document.exitFullscreen();
+    } catch {}
+  };
+  api.current.exitFull = exitFull;
 
   const ctl =
     "t-mono flex h-9 w-9 items-center justify-center rounded-md border border-[rgb(var(--hairline-strong))] bg-[rgb(4_7_10/0.8)] text-base text-primary transition-colors hover:border-[var(--t-cyan)] hover:text-[var(--t-cyan)]";
 
   return (
     <div className="relative z-10 mx-auto max-w-6xl px-6">
-      <div ref={wrapRef} className="t-window relative">
+      <div
+        ref={wrapRef}
+        className={`t-window relative ${full ? "!fixed inset-0 z-[1000] !rounded-none !border-0 !bg-[#04141c]" : ""}`}
+      >
         <canvas
           ref={canvasRef}
           role="img"
           aria-label="Interactive world map of projects. Drag to move, scroll to zoom, click a project to open it."
           className="block w-full cursor-grab touch-none"
         />
-        <p className="t-mono pointer-events-none absolute left-3 top-3 max-w-[60%] rounded bg-[rgb(4_7_10/0.7)] px-2.5 py-1.5 text-[11px] text-muted">
-          drag to move · scroll or pinch to zoom · click a project
+        <p className={`t-mono pointer-events-none absolute left-3 top-3 ${sel >= 0 ? "max-md:hidden" : ""} max-w-[60%] rounded bg-[rgb(4_7_10/0.7)] px-2.5 py-1.5 text-[11px] text-muted`}>
+          drag to move · scroll or pinch to zoom · click a project to read about it
         </p>
-        <div className="absolute bottom-3 right-3 flex flex-col gap-2">
+        <AnimatePresence mode="wait">
+          {sel >= 0 && (
+            <DetailPanel
+              key={projects[sel].slug}
+              project={projects[sel]}
+              index={sel}
+              total={projects.length}
+              prev={sel > 0 ? projects[sel - 1] : null}
+              next={sel < projects.length - 1 ? projects[sel + 1] : null}
+              onPrev={() => api.current.select(sel - 1)}
+              onNext={() => api.current.select(sel + 1)}
+              onClose={() => api.current.select(-1)}
+            />
+          )}
+        </AnimatePresence>
+        <div className={`absolute right-3 flex flex-col gap-2 ${sel >= 0 ? "md:right-[25.75rem] bottom-[calc(50%+0.75rem)] md:bottom-3" : "bottom-3"}`}>
+          <button
+            type="button"
+            aria-label={full ? "Exit full screen" : "Full screen"}
+            className={`${ctl} !text-xs`}
+            onClick={full ? exitFull : enterFull}
+          >
+            {full ? "exit" : "full"}
+          </button>
           <button type="button" aria-label="Zoom in" className={ctl} onClick={() => api.current.zoom(1.5)}>
             +
           </button>
@@ -602,5 +695,92 @@ export default function ExploreMap({ projects }) {
         ))}
       </ul>
     </div>
+  );
+}
+
+function DetailPanel({ project, index, total, prev, next, onPrev, onNext, onClose }) {
+  const nav =
+    "t-mono rounded-md border border-[rgb(var(--hairline-strong))] px-3 py-1.5 text-xs text-muted transition-colors hover:border-[var(--t-cyan)] hover:text-[var(--t-cyan)] disabled:pointer-events-none disabled:opacity-30";
+  return (
+    <motion.aside
+      initial={{ opacity: 0, x: 40 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 40 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      className="absolute inset-x-0 bottom-0 top-1/2 flex flex-col border-t border-[var(--t-cyan)] bg-[rgb(6_12_17/0.96)] backdrop-blur-md md:inset-y-0 md:left-auto md:right-0 md:w-[24.5rem] md:border-l md:border-t-0"
+    >
+      <div className="flex items-center justify-between gap-2 border-b border-[rgb(var(--hairline))] px-4 py-2.5">
+        <p className="t-mono text-[11px] text-faint">
+          <span className="t-cyan">{pad(index + 1)}</span> / {pad(total)} · {project.category}
+        </p>
+        <button type="button" onClick={onClose} aria-label="Close details" className={nav}>
+          close ✕
+        </button>
+      </div>
+
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-5 pt-4">
+        <div className="relative aspect-[16/9] overflow-hidden rounded-md border border-[rgb(var(--hairline))]">
+          <Image src={project.cover} alt={`${project.title} cover`} fill sizes="400px" className="object-cover object-top" />
+        </div>
+        <h3 className="t-mono mt-4 text-2xl font-semibold tracking-tight text-primary">{project.title}</h3>
+        <p className="mt-1 text-sm text-[var(--t-cyan)]">{project.tagline}</p>
+        <p className="mt-4 text-sm leading-relaxed text-muted">{project.summary}</p>
+
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {project.stack.map((tech) => (
+            <span key={tech} className="t-chip">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <p className="t-mono mt-6 text-[11px] text-faint">## what i built</p>
+        <ul className="mt-2 space-y-2">
+          {project.contributions.map((c) => (
+            <li key={c} className="flex gap-2.5 text-sm leading-relaxed text-muted">
+              <span className="t-mono t-lime">[x]</span>
+              <span>{c}</span>
+            </li>
+          ))}
+        </ul>
+
+        {project.gallery.length > 0 && (
+          <>
+            <p className="t-mono mt-6 text-[11px] text-faint">## screens ({project.gallery.length})</p>
+            <div className="mt-2 space-y-4">
+              {project.gallery.map((shot) => (
+                <figure key={shot.title}>
+                  <Image
+                    src={shot.img}
+                    alt={shot.title}
+                    sizes="400px"
+                    className="w-full rounded-md border border-[rgb(var(--hairline))]"
+                  />
+                  <figcaption className="mt-2 text-xs leading-relaxed text-muted">
+                    <span className="text-primary">{shot.title}.</span> {shot.desc}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </>
+        )}
+
+        <Link
+          href={`/work/${project.slug}`}
+          className="t-mono mt-6 inline-flex items-center gap-2 rounded-md bg-[var(--t-cyan)] px-4 py-2 text-sm font-semibold text-[rgb(4_7_10)] transition-opacity hover:opacity-90"
+        >
+          open full case study →
+        </Link>
+      </div>
+
+      <div className="flex justify-between gap-2 border-t border-[rgb(var(--hairline))] px-4 py-2.5">
+        <button type="button" onClick={onPrev} disabled={!prev} className={nav}>
+          ← {prev ? prev.title : "start"}
+        </button>
+        <button type="button" onClick={onNext} disabled={!next} className={nav}>
+          {next ? next.title : "end"} →
+        </button>
+      </div>
+    </motion.aside>
   );
 }
