@@ -7,8 +7,10 @@ import { useEffect, useRef, useState } from "react";
 
 const CYAN = "#2de2ff";
 const LIME = "#b6ff3c";
-const WORLD_W = 2600;
-const WORLD_H = 2000;
+// The world is sized to the screen's shape when the map mounts (see buildWorld),
+// so a wide display gets a wide map instead of empty sea at the sides.
+let WORLD_W = 2600;
+let WORLD_H = 2000;
 const ISLAND_R = 118;
 const CARD_W = 230;
 const MAX_SCALE = 1.7;
@@ -122,13 +124,17 @@ function stepMover(m, dt, t, trail = false) {
   }
 }
 
-function buildWorld(projects) {
+function buildWorld(projects, aspect) {
   const rand = rng(7);
-  const cols = 5;
   const m = 340;
-  const gx = (WORLD_W - m * 2) / (cols - 1);
-  const rows = Math.ceil(projects.length / cols);
-  const gy = (WORLD_H - m * 2) / Math.max(rows - 1, 1);
+  // Pick rows to suit the screen, then stretch the spacing to match its shape.
+  const rows = aspect >= 1.6 ? 3 : aspect >= 1.2 ? 4 : 5;
+  const cols = Math.ceil(projects.length / rows);
+  const gy = 470;
+  const H = m * 2 + (rows - 1) * gy;
+  const gx = clamp((aspect * H - m * 2) / (cols - 1), 380, 760);
+  WORLD_W = Math.round(m * 2 + (cols - 1) * gx);
+  WORLD_H = H;
 
   const islands = projects.map((project, i) => {
     const r = Math.floor(i / cols);
@@ -146,7 +152,7 @@ function buildWorld(projects) {
   });
 
   const islets = [];
-  for (let tries = 0; tries < 400 && islets.length < 12; tries++) {
+  for (let tries = 0; tries < 400 && islets.length < Math.round((WORLD_W * WORLD_H) / 420000); tries++) {
     const x = 120 + rand() * (WORLD_W - 240);
     const y = 120 + rand() * (WORLD_H - 240);
     const r = 38 + rand() * 34;
@@ -173,7 +179,7 @@ function buildWorld(projects) {
     outline: blob(1, rand, 14),
   }));
 
-  return { islands, islets, clouds };
+  return { islands, islets, clouds, rows };
 }
 
 /**
@@ -181,10 +187,10 @@ function buildWorld(projects) {
  * every project is a numbered pin on its own island. Zoom in and the pin opens
  * into the project card; click it to go to the case study.
  */
-export default function ExploreMap({ projects }) {
+export default function ExploreMap({ projects, page = false }) {
   const wrapRef = useRef(null);
   const selRef = useRef(-1);
-  const fullRef = useRef(false);
+  const fullRef = useRef(page);
   const [full, setFull] = useState(false);
   const [sel, setSel] = useState(-1);
   const canvasRef = useRef(null);
@@ -193,7 +199,8 @@ export default function ExploreMap({ projects }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const world = buildWorld(projects);
+    const aspect = clamp(wrapRef.current.clientWidth / (wrapRef.current.clientHeight || wrapRef.current.clientWidth / 1.6), 0.7, 3);
+    const world = buildWorld(projects, aspect);
     const life = buildLife();
     const imgs = {};
     const cam = { x: 0, y: 0, s: 1 };
@@ -944,13 +951,22 @@ export default function ExploreMap({ projects }) {
   // Full screen: a fixed overlay everywhere, plus the browser's own full
   // screen where it is supported so the browser chrome goes away too.
   useEffect(() => {
-    fullRef.current = full;
-    document.body.style.overflow = full ? "hidden" : "";
+    fullRef.current = full || page;
+    document.body.style.overflow = full || page ? "hidden" : "";
     api.current.resize?.();
     return () => {
       document.body.style.overflow = "";
     };
-  }, [full]);
+  }, [full, page]);
+
+  // The map page owns the whole screen, so the footer steps aside.
+  useEffect(() => {
+    if (!page) return;
+    document.documentElement.dataset.page = "map";
+    return () => {
+      delete document.documentElement.dataset.page;
+    };
+  }, [full, page]);
 
   useEffect(() => {
     const onFs = () => {
@@ -978,10 +994,10 @@ export default function ExploreMap({ projects }) {
     "t-mono flex h-9 w-9 items-center justify-center rounded-md border border-[rgb(var(--hairline-strong))] bg-[rgb(4_7_10/0.8)] text-base text-primary transition-colors hover:border-[var(--t-cyan)] hover:text-[var(--t-cyan)]";
 
   return (
-    <div className="relative z-10 mx-auto max-w-6xl px-6">
+    <div className={page ? "" : "relative z-10 mx-auto max-w-6xl px-6"}>
       <div
         ref={wrapRef}
-        className={`t-window relative ${full ? "!fixed inset-0 z-[1000] !rounded-none !border-0 !bg-[#04141c]" : ""}`}
+        className={`t-window relative ${full ? "!fixed inset-0 z-[1000] !rounded-none !border-0 !bg-[#04141c]" : page ? "!fixed inset-x-0 bottom-0 top-14 z-[40] !rounded-none !border-0 !bg-[#04141c]" : ""}`}
       >
         <canvas
           ref={canvasRef}

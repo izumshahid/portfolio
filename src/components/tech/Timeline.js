@@ -45,8 +45,19 @@ export default function Timeline({ projects }) {
           />
         </div>
 
-        {projects.map((project, i) => (
-          <TimelineItem key={project.slug} project={project} index={i} total={projects.length} />
+        {/* Two projects per row (left and right of the rail) keeps the page short.
+            The right card sits lower so the nodes still step down the rail. */}
+        {Array.from({ length: Math.ceil(projects.length / 2) }, (_, row) => (
+          <div
+            key={row}
+            className="grid grid-cols-1 gap-y-2 md:grid-cols-[1fr_5rem_1fr] md:gap-y-0 md:py-4"
+          >
+            {[row * 2, row * 2 + 1].map((i) =>
+              projects[i] ? (
+                <TimelineItem key={projects[i].slug} project={projects[i]} index={i} total={projects.length} />
+              ) : null,
+            )}
+          </div>
         ))}
 
         <div className="relative grid grid-cols-[2.5rem_1fr] pb-4 pt-6 md:grid-cols-[1fr_5rem_1fr]">
@@ -80,14 +91,20 @@ function TimelineItem({ project, index, total }) {
   const fly = reduced ? { opacity: 0 } : { opacity: 0, x: left ? -64 : 64, filter: "blur(8px)" };
 
   return (
-    <div className="relative grid grid-cols-[2.5rem_1fr] items-start py-7 md:grid-cols-[1fr_5rem_1fr] md:py-12">
-      {/* Node */}
+    <div
+      className={`relative grid grid-cols-[2.5rem_1fr] items-start py-5 md:block md:py-0 ${
+        left ? "md:col-start-1" : "md:col-start-3 md:mt-32"
+      }`}
+    >
+      {/* Node: sits in the left gutter on phones, on the rail on desktop */}
       <div
-        ref={nodeRef}
-        className="col-start-1 row-start-1 flex justify-center pt-4 md:col-start-2"
+        className={`col-start-1 row-start-1 flex justify-center pt-4 md:absolute md:top-0 md:w-0 ${
+          left ? "md:left-[calc(100%+2.5rem)]" : "md:-left-10"
+        }`}
       >
         <span
-          className="relative block h-3.5 w-3.5 rotate-45 border transition-all duration-500"
+          ref={nodeRef}
+          className="relative block h-3.5 w-3.5 shrink-0 rotate-45 border transition-all duration-500"
           style={{
             borderColor: active ? "var(--t-cyan)" : "rgb(var(--hairline-strong))",
             background: active ? "var(--t-cyan)" : "var(--canvas)",
@@ -97,20 +114,6 @@ function TimelineItem({ project, index, total }) {
         />
       </div>
 
-      {/* Meta label on the empty side (md+) */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: active ? 1 : 0 }}
-        transition={{ duration: 0.6 }}
-        className={`t-mono row-start-1 hidden pt-3.5 text-xs md:block ${
-          left ? "md:col-start-3 md:pl-8" : "md:col-start-1 md:pr-8 md:text-right"
-        }`}
-      >
-        <span className="t-cyan">{pad(index)}</span>
-        <span className="text-faint"> / {pad(total - 1)}</span>
-        <span className="block text-faint">{project.category}</span>
-      </motion.div>
-
       {/* Card */}
       <motion.div
         ref={cardRef}
@@ -118,9 +121,7 @@ function TimelineItem({ project, index, total }) {
         whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
         viewport={{ once: true, margin: "-90px" }}
         transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        className={`relative col-start-2 row-start-1 ${
-          left ? "md:col-start-1 md:pr-0" : "md:col-start-3"
-        }`}
+        className="relative col-start-2 row-start-1"
       >
         {/* Connector to the node */}
         <motion.span
@@ -154,7 +155,7 @@ function TimelineItem({ project, index, total }) {
                 src={project.cover}
                 alt={`${project.title} cover`}
                 fill
-                sizes="(max-width: 768px) 90vw, 520px"
+                sizes="(max-width: 768px) 90vw, 480px"
                 className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
             </motion.div>
@@ -171,10 +172,10 @@ function TimelineItem({ project, index, total }) {
           </div>
 
           <div className="p-5 sm:p-6">
-            <p className="t-mono text-[11px] text-faint md:hidden">
+            <p className="t-mono text-[11px] text-faint">
               <span className="t-cyan">{pad(index)}</span> / {pad(total - 1)} · {project.category}
             </p>
-            <h3 className="t-mono mt-1 text-xl font-semibold tracking-tight text-primary sm:text-2xl md:mt-0">
+            <h3 className="t-mono mt-1 text-xl font-semibold tracking-tight text-primary sm:text-2xl">
               {project.title}
             </h3>
             <p className="mt-2 text-[15px] leading-relaxed text-muted">{project.tagline}</p>

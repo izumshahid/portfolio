@@ -557,3 +557,8 @@ html[data-mode="tech"] :focus-visible {
   0%, 100% { box-shadow: 0 0 0 0 rgb(45 226 255 / 0.55); }
   50% { box-shadow: 0 0 0 9px rgb(45 226 255 / 0); }
 }
+
+/* The map page fills the screen, so no footer under it. */
+html[data-page="map"] #t-contact {
+  display: none;
+}

@@ -5,14 +5,12 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Timeline from "./Timeline";
-import ExploreMap from "./ExploreMap";
 import { TiltCard } from "./Interactive";
 
 const KEY = "tech-layout";
 const OPTIONS = [
   { id: "timeline", label: "timeline" },
   { id: "grid", label: "grid" },
-  { id: "explore", label: "explore" },
 ];
 
 /** Lets the visitor pick how the projects are laid out. Remembered per tab. */
@@ -28,7 +26,6 @@ export default function ProjectsView({ projects }) {
 
   const choose = (id) => {
     setLayout(id);
-    if (id === "explore") return; // the map is never the remembered default
     try {
       sessionStorage.setItem(KEY, id);
     } catch {}
@@ -36,7 +33,7 @@ export default function ProjectsView({ projects }) {
 
   return (
     <>
-      <div className="relative z-10 mx-auto flex max-w-6xl justify-start px-6 pb-10">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-6 pb-10">
         <div role="group" aria-label="Project layout" className="t-window inline-flex p-1">
           {OPTIONS.map((o) => {
             const on = layout === o.id;
@@ -57,11 +54,16 @@ export default function ProjectsView({ projects }) {
             );
           })}
         </div>
+        <Link
+          href="/map"
+          className="t-mono rounded-lg border border-[var(--t-lime)] px-4 py-2 text-xs text-[var(--t-lime)] transition-colors hover:bg-[var(--t-lime)] hover:text-[rgb(4_7_10)]"
+        >
+          explore the map →
+        </Link>
       </div>
 
       {layout === "timeline" && <Timeline projects={projects} />}
       {layout === "grid" && <ProjectGrid projects={projects} />}
-      {layout === "explore" && <ExploreMap projects={projects} />}
     </>
   );
 }

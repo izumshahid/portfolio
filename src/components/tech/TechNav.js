@@ -62,6 +62,12 @@ export default function TechNav() {
               ./{link.label.toLowerCase()}
             </Link>
           ))}
+          <Link
+            href="/map"
+            className="t-mono px-1.5 py-1 text-[11px] text-[var(--t-lime)] transition-opacity hover:opacity-80 sm:px-2 sm:text-[12px]"
+          >
+            ./map
+          </Link>
           <button
             type="button"
             onClick={exit}
