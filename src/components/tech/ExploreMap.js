@@ -57,6 +57,71 @@ function trace(ctx, pts, cx, cy, scale = 1) {
   ctx.closePath();
 }
 
+
+const FISH_COLORS = ["#7ff0ff", "#ffd36b", "#ff9a6b", "#b6ff3c"];
+
+/** Everything that swims or flies. All of it wanders on slow curves. */
+function buildLife() {
+  const rand = rng(21);
+  const mover = (speed, turn, extra = {}) => ({
+    x: 200 + rand() * (WORLD_W - 400),
+    y: 200 + rand() * (WORLD_H - 400),
+    a: rand() * Math.PI * 2,
+    speed,
+    turn,
+    ph: rand() * 6,
+    f: 0.2 + rand() * 0.3,
+    trail: [],
+    tt: 0,
+    ...extra,
+  });
+  const pick = () => FISH_COLORS[Math.floor(rand() * FISH_COLORS.length)];
+  return {
+    schools: Array.from({ length: 6 }, () => {
+      const m = mover(55 + rand() * 25, 0.7, { col: pick() });
+      m.fish = Array.from({ length: 7 + Math.floor(rand() * 5) }, () => ({
+        ox: (rand() - 0.5) * 70,
+        oy: (rand() - 0.5) * 50,
+        ph: rand() * 6,
+        size: 6 + rand() * 4,
+      }));
+      return m;
+    }),
+    sharks: Array.from({ length: 3 }, () => mover(48 + rand() * 14, 0.35)),
+    whales: Array.from({ length: 2 }, () => mover(22 + rand() * 8, 0.2)),
+    turtles: Array.from({ length: 5 }, () => mover(14 + rand() * 8, 0.5)),
+    jellies: Array.from({ length: 7 }, () => mover(8 + rand() * 6, 0.8)),
+    gulls: Array.from({ length: 3 }, () => {
+      const m = mover(40 + rand() * 15, 0.3);
+      m.birds = Array.from({ length: 3 }, () => ({
+        ox: (rand() - 0.5) * 80,
+        oy: (rand() - 0.5) * 60,
+        ph: rand() * 6,
+      }));
+      return m;
+    }),
+  };
+}
+
+function stepMover(m, dt, t, trail = false) {
+  m.a += Math.sin(t * m.f + m.ph) * m.turn * dt;
+  m.x += Math.cos(m.a) * m.speed * dt;
+  m.y += Math.sin(m.a) * m.speed * dt;
+  const M = 90;
+  if (m.x < M && Math.cos(m.a) < 0) m.a = Math.PI - m.a;
+  if (m.x > WORLD_W - M && Math.cos(m.a) > 0) m.a = Math.PI - m.a;
+  if (m.y < M && Math.sin(m.a) < 0) m.a = -m.a;
+  if (m.y > WORLD_H - M && Math.sin(m.a) > 0) m.a = -m.a;
+  if (trail) {
+    m.tt -= dt;
+    if (m.tt <= 0) {
+      m.tt = 0.12;
+      m.trail.push([m.x, m.y]);
+      if (m.trail.length > 14) m.trail.shift();
+    }
+  }
+}
+
 function buildWorld(projects) {
   const rand = rng(7);
   const cols = 5;
@@ -129,6 +194,7 @@ export default function ExploreMap({ projects }) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     const world = buildWorld(projects);
+    const life = buildLife();
     const imgs = {};
     const cam = { x: 0, y: 0, s: 1 };
     let target = null;
@@ -219,6 +285,272 @@ export default function ExploreMap({ projects }) {
       ctx.textAlign = align;
       ctx.fillStyle = color;
       ctx.fillText(str, x, y);
+    };
+
+
+    const inView = (x, y, m = 200) =>
+      x > cam.x - m && x < cam.x + VW / cam.s + m && y > cam.y - m && y < cam.y + VH / cam.s + m;
+
+    const wake = (m, width) => {
+      if (m.trail.length < 2) return;
+      ctx.save();
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      for (let i = 1; i < m.trail.length; i++) {
+        ctx.strokeStyle = `rgba(220,245,255,${(i / m.trail.length) * 0.22})`;
+        ctx.lineWidth = width * (i / m.trail.length);
+        ctx.beginPath();
+        ctx.moveTo(m.trail[i - 1][0], m.trail[i - 1][1]);
+        ctx.lineTo(m.trail[i][0], m.trail[i][1]);
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+
+    const drawFish = (x, y, a, size, col, ph, k) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(a);
+      ctx.scale(k, k);
+      const wag = Math.sin(t * 9 + ph) * 0.45;
+      ctx.globalAlpha = 0.9;
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, size, size * 0.45, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(-size * 0.8, 0);
+      ctx.lineTo(-size * 1.6, -size * 0.5 + wag * size * 0.6);
+      ctx.lineTo(-size * 1.6, size * 0.5 + wag * size * 0.6);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    };
+
+    const drawShark = (m, k) => {
+      wake(m, 12 * k);
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      ctx.rotate(m.a);
+      ctx.scale(k, k);
+      const L = 64;
+      const wag = Math.sin(t * 3 + m.ph) * 0.3;
+      ctx.fillStyle = "#6f8b9b";
+      ctx.beginPath();
+      ctx.moveTo(L, 0);
+      ctx.quadraticCurveTo(L * 0.35, -15, -L * 0.45, -5);
+      ctx.lineTo(-L * 0.45, 5);
+      ctx.quadraticCurveTo(L * 0.35, 15, L, 0);
+      ctx.fill();
+      ctx.fillStyle = "#5a7686";
+      for (const sd of [-1, 1]) {
+        ctx.beginPath();
+        ctx.moveTo(14, sd * 8);
+        ctx.lineTo(-4, sd * 26);
+        ctx.lineTo(-8, sd * 8);
+        ctx.fill();
+      }
+      ctx.beginPath();
+      ctx.moveTo(6, 0);
+      ctx.lineTo(-10, -3);
+      ctx.lineTo(-10, 3);
+      ctx.fill();
+      ctx.save();
+      ctx.translate(-L * 0.45, 0);
+      ctx.rotate(wag);
+      ctx.beginPath();
+      ctx.moveTo(0, -4);
+      ctx.lineTo(-22, -18);
+      ctx.lineTo(-14, 0);
+      ctx.lineTo(-22, 18);
+      ctx.lineTo(0, 4);
+      ctx.fill();
+      ctx.restore();
+      ctx.fillStyle = "#04121a";
+      ctx.beginPath();
+      ctx.arc(L * 0.72, -4, 1.8, 0, Math.PI * 2);
+      ctx.arc(L * 0.72, 4, 1.8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    const drawWhale = (m, k) => {
+      wake(m, 26 * k);
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      ctx.rotate(m.a);
+      ctx.scale(k, k);
+      const L = 150;
+      const wag = Math.sin(t * 1.4 + m.ph) * 0.18;
+      ctx.fillStyle = "#35618f";
+      ctx.beginPath();
+      ctx.moveTo(L * 0.55, 0);
+      ctx.bezierCurveTo(L * 0.4, -34, -L * 0.2, -36, -L * 0.5, -7);
+      ctx.lineTo(-L * 0.5, 7);
+      ctx.bezierCurveTo(-L * 0.2, 36, L * 0.4, 34, L * 0.55, 0);
+      ctx.fill();
+      ctx.fillStyle = "rgba(220,240,255,0.25)";
+      ctx.beginPath();
+      ctx.ellipse(L * 0.05, 0, L * 0.35, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#2b5382";
+      for (const sd of [-1, 1]) {
+        ctx.beginPath();
+        ctx.moveTo(L * 0.2, sd * 26);
+        ctx.lineTo(L * 0.02, sd * 52);
+        ctx.lineTo(-L * 0.06, sd * 24);
+        ctx.fill();
+      }
+      ctx.save();
+      ctx.translate(-L * 0.5, 0);
+      ctx.rotate(wag);
+      ctx.beginPath();
+      ctx.moveTo(0, -6);
+      ctx.quadraticCurveTo(-26, -14, -44, -40);
+      ctx.quadraticCurveTo(-34, -6, -30, 0);
+      ctx.quadraticCurveTo(-34, 6, -44, 40);
+      ctx.quadraticCurveTo(-26, 14, 0, 6);
+      ctx.fill();
+      ctx.restore();
+      // Spout every few seconds
+      const cyc = (t + m.ph * 3) % 9;
+      if (cyc < 1.4) {
+        const q = cyc / 1.4;
+        ctx.strokeStyle = `rgba(230,250,255,${0.8 * (1 - q)})`;
+        ctx.lineWidth = 3;
+        ctx.lineCap = "round";
+        for (let i = -2; i <= 2; i++) {
+          ctx.beginPath();
+          ctx.moveTo(L * 0.25, 0);
+          ctx.quadraticCurveTo(L * 0.25 + i * 7 * q, -10 - 24 * q, L * 0.25 + i * 16 * q, -4 - 12 * q * q * 4);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    };
+
+    const drawTurtle = (m, k) => {
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      ctx.rotate(m.a);
+      ctx.scale(k, k);
+      const flap = Math.sin(t * 2.2 + m.ph) * 0.35;
+      ctx.fillStyle = "#3fb878";
+      for (const sd of [-1, 1]) {
+        for (const fx of [9, -9]) {
+          ctx.save();
+          ctx.translate(fx, sd * 9);
+          ctx.rotate(sd * (0.6 + flap) * (fx > 0 ? 1 : -1));
+          ctx.beginPath();
+          ctx.ellipse(0, sd * 8, 4, 9, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+      ctx.beginPath();
+      ctx.arc(19, 0, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#1f8a55";
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 15, 12, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(182,255,60,0.5)";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(-8, 0);
+      ctx.lineTo(8, 0);
+      ctx.moveTo(0, -9);
+      ctx.lineTo(0, 9);
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    const drawJelly = (m, k) => {
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      ctx.rotate(m.a);
+      ctx.scale(k, k);
+      const pulse = 1 + 0.14 * Math.sin(t * 2.2 + m.ph);
+      ctx.shadowColor = "#ff7ae0";
+      ctx.shadowBlur = 14;
+      ctx.strokeStyle = "rgba(255,140,230,0.55)";
+      ctx.lineWidth = 1.4;
+      for (let i = -2; i <= 2; i++) {
+        ctx.beginPath();
+        ctx.moveTo(-8, i * 4);
+        for (let j = 1; j <= 4; j++) {
+          ctx.lineTo(-8 - j * 6, i * 4 + Math.sin(t * 3 + j + i + m.ph) * 4);
+        }
+        ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(255,140,230,0.4)";
+      ctx.beginPath();
+      ctx.arc(0, 0, 11 * pulse, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,230,250,0.5)";
+      ctx.beginPath();
+      ctx.arc(0, 0, 4.5 * pulse, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    const drawGull = (x, y, a, ph, k) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(a);
+      ctx.scale(k, k);
+      const w = 8 + Math.sin(t * 7 + ph) * 5;
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 6, 2.2, 0, 0, Math.PI * 2);
+      ctx.fill();
+      for (const sd of [-1, 1]) {
+        ctx.beginPath();
+        ctx.moveTo(1, 0);
+        ctx.lineTo(-7, sd * w);
+        ctx.lineTo(-3, 0);
+        ctx.fill();
+      }
+      ctx.restore();
+    };
+
+    const drawSea = () => {
+      const k = Math.max(1, 0.85 / cam.s);
+      const kb = Math.max(1, 0.6 / cam.s);
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, WORLD_W, WORLD_H);
+      ctx.clip();
+      for (const m of life.jellies) if (inView(m.x, m.y)) drawJelly(m, kb);
+      for (const m of life.turtles) if (inView(m.x, m.y)) drawTurtle(m, kb);
+      for (const m of life.schools) {
+        if (!inView(m.x, m.y, 260)) continue;
+        const c = Math.cos(m.a);
+        const sn = Math.sin(m.a);
+        for (const f of m.fish) {
+          const wob = Math.sin(t * 1.5 + f.ph) * 6;
+          const lx = f.ox * k + wob;
+          const ly = f.oy * k;
+          drawFish(m.x + lx * c - ly * sn, m.y + lx * sn + ly * c, m.a + Math.sin(t * 2 + f.ph) * 0.15, f.size, m.col, f.ph, k);
+        }
+      }
+      for (const m of life.sharks) if (inView(m.x, m.y, 260)) drawShark(m, kb);
+      for (const m of life.whales) if (inView(m.x, m.y, 320)) drawWhale(m, kb);
+      ctx.restore();
+    };
+
+    const drawGulls = () => {
+      const k = Math.max(1, 0.8 / cam.s);
+      for (const m of life.gulls) {
+        if (!inView(m.x, m.y, 260)) continue;
+        const c = Math.cos(m.a);
+        const sn = Math.sin(m.a);
+        for (const b of m.birds) {
+          const lx = b.ox * k;
+          const ly = b.oy * k;
+          drawGull(m.x + lx * c - ly * sn, m.y + lx * sn + ly * c, m.a, b.ph, k);
+        }
+      }
     };
 
     const drawIsland = (isl, hot) => {
@@ -363,6 +695,8 @@ export default function ExploreMap({ projects }) {
       ctx.lineWidth = 3 / cam.s;
       ctx.strokeRect(0, 0, WORLD_W, WORLD_H);
 
+      drawSea();
+
       for (const o of world.islets) {
         trace(ctx, o.outline, o.x, o.y, 1.25);
         ctx.fillStyle = "rgba(45,226,255,0.07)";
@@ -418,6 +752,8 @@ export default function ExploreMap({ projects }) {
         ctx.fill();
       }
 
+      drawGulls();
+
       const cardA = clamp((cam.s - 0.7) / 0.25, 0, 1);
       world.islands.forEach((isl, i) => {
         if (cardA > 0) drawCard(isl, cardA, i === hover || i === selRef.current);
@@ -434,6 +770,12 @@ export default function ExploreMap({ projects }) {
 
     const step = (dt) => {
       t += dt;
+      life.schools.forEach((m) => stepMover(m, dt, t));
+      life.gulls.forEach((m) => stepMover(m, dt, t));
+      life.turtles.forEach((m) => stepMover(m, dt, t));
+      life.jellies.forEach((m) => stepMover(m, dt, t));
+      life.sharks.forEach((m) => stepMover(m, dt, t, true));
+      life.whales.forEach((m) => stepMover(m, dt, t, true));
       if (target) {
         const k = 1 - Math.pow(0.0008, dt);
         cam.s += (target.s - cam.s) * k;
