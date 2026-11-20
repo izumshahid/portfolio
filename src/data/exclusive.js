@@ -1,5 +1,5 @@
 // Projects that only appear in the tech view (opened with the access
-// query param — see TECH_ACCESS in site.js). Add new ones here; they are
+// query param, see TECH_ACCESS in site.js). Add new ones here; they are
 // merged into the timeline automatically and never listed in the public view.
 import LIGHTS_LANDING from "@/assets/lights/landing.png";
 import LIGHTS_MEGA_MENU from "@/assets/lights/megaMenu.png";

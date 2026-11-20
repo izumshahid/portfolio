@@ -10,6 +10,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
+import { tipsFor } from "@/data/tips";
 import { TiltCard } from "./Interactive";
 
 const fileName = (i, title) =>
@@ -25,7 +26,7 @@ const pad = (n) => String(n).padStart(2, "0");
  * the rail fills with scroll, a glowing packet rides its head, each node
  * ignites as the rail reaches it, and steps slide in from alternating sides.
  */
-export default function Walkthrough({ gallery }) {
+export default function Walkthrough({ gallery, slug }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -48,13 +49,13 @@ export default function Walkthrough({ gallery }) {
       </div>
 
       {gallery.map((shot, i) => (
-        <Step key={i} shot={shot} index={i} total={gallery.length} />
+        <Step key={i} shot={shot} index={i} total={gallery.length} tips={tipsFor(slug)} />
       ))}
     </div>
   );
 }
 
-function Step({ shot, index: i, total }) {
+function Step({ shot, index: i, total, tips }) {
   const reduced = useReducedMotion();
   const nodeRef = useRef(null);
   const active = useInView(nodeRef, { once: true, margin: "0px 0px -42% 0px" });
@@ -106,13 +107,35 @@ function Step({ shot, index: i, total }) {
           />
         </TiltCard>
         <div className={flip ? "lg:order-1" : ""}>
-          <span className="t-mono t-cyan text-xs">
-            {pad(i + 1)} / {pad(total)}
-          </span>
-          <h3 className="t-mono mt-2 text-xl font-semibold tracking-tight text-primary sm:text-2xl">
-            {shot.title}
-          </h3>
-          <p className="mt-3 leading-relaxed text-muted">{shot.desc}</p>
+          {total === 1 && tips.length ? (
+            <>
+              <span className="t-mono t-cyan text-xs">tips.md</span>
+              <h3 className="t-mono mt-2 text-xl font-semibold tracking-tight text-primary sm:text-2xl">
+                Tips for this storefront
+              </h3>
+              <ol className="mt-4 space-y-4">
+                {tips.map((tip, n) => (
+                  <li key={tip.title} className="flex gap-3">
+                    <span className="t-mono t-cyan pt-0.5 text-xs">{pad(n + 1)}</span>
+                    <span>
+                      <span className="block text-[15px] font-medium text-primary">{tip.title}</span>
+                      <span className="mt-0.5 block text-sm leading-relaxed text-muted">{tip.body}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </>
+          ) : (
+            <>
+              <span className="t-mono t-cyan text-xs">
+                {pad(i + 1)} / {pad(total)}
+              </span>
+              <h3 className="t-mono mt-2 text-xl font-semibold tracking-tight text-primary sm:text-2xl">
+                {shot.title}
+              </h3>
+              <p className="mt-3 leading-relaxed text-muted">{shot.desc}</p>
+            </>
+          )}
         </div>
       </motion.div>
     </div>

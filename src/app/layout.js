@@ -14,12 +14,12 @@ const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 export const metadata = {
   metadataBase: new URL("https://irzumshahid.com"),
   title: {
-    default: `${SITE.name} — ${SITE.role}`,
-    template: `%s — ${SITE.name}`,
+    default: `${SITE.name} | ${SITE.role}`,
+    template: `%s | ${SITE.name}`,
   },
   description: SITE.intro,
   openGraph: {
-    title: `${SITE.name} — ${SITE.role}`,
+    title: `${SITE.name} | ${SITE.role}`,
     description: SITE.intro,
     type: "website",
   },

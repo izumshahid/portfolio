@@ -18,7 +18,7 @@ function PublicHome() {
         id="work"
         number="01 / Selected work"
         title="Things I have built."
-        lead="Production systems for commerce and the operational tooling behind them — configurators, inventory, subscriptions and analytics."
+        lead="Production systems for commerce and the operational tooling behind them: configurators, inventory, subscriptions and analytics."
       >
         <div className="grid gap-6 lg:grid-cols-2">
           {FEATURED_PROJECTS.map((project, i) => (
@@ -87,7 +87,7 @@ function PublicHome() {
           {[
             {
               title: "Systems, not screens",
-              body: "Most of my work sits behind the storefront — inventory, fulfilment, QA, procurement. I design for the operator who uses it forty times a day.",
+              body: "Most of my work sits behind the storefront: inventory, fulfilment, QA, procurement. I design for the operator who uses it forty times a day.",
             },
             {
               title: "Ship, then refine",

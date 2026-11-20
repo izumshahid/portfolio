@@ -97,7 +97,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Portrait — the one place a heavy glass frame earns its keep. */}
+        {/* Portrait, the one place a heavy glass frame earns its keep. */}
         <motion.div
           initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -124,7 +124,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Tech marquee — masked at both edges so it dissolves rather than cuts. */}
+      {/* Tech marquee, masked at both edges so it dissolves rather than cuts. */}
       <motion.div
         {...rise(0.4)}
         className="relative mt-20 overflow-hidden border-y py-5 hairline"

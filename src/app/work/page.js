@@ -8,7 +8,7 @@ import { PROJECTS } from "@/data/projects";
 export const metadata = {
   title: "Work",
   description:
-    "Selected projects — commerce platforms, inventory and fulfilment systems, Shopify apps and internal tooling.",
+    "Selected projects: commerce platforms, inventory and fulfilment systems, Shopify apps and internal tooling.",
 };
 
 function PublicWorkIndex() {

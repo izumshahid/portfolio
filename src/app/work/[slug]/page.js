@@ -6,6 +6,7 @@ import Contact from "@/components/Contact";
 import ModeView from "@/components/ModeView";
 import TechCaseStudy from "@/components/tech/TechCaseStudy";
 import { ALL_PROJECTS, PROJECTS, getAdjacentProjects, getProject } from "@/data/projects";
+import { tipsFor } from "@/data/tips";
 
 export function generateStaticParams() {
   return ALL_PROJECTS.map((project) => ({ slug: project.slug }));
@@ -163,7 +164,7 @@ function PublicCaseStudy({ project }) {
           </div>
         </section>
 
-        {/* Walkthrough — alternating so it reads as a narrative rather than a
+        {/* Walkthrough, alternating so it reads as a narrative rather than a
             dump of stacked screenshots. */}
         <section className="mx-auto max-w-6xl px-6 pb-20 sm:pb-28">
           <Reveal>
@@ -191,15 +192,30 @@ function PublicCaseStudy({ project }) {
                   </div>
 
                   <div>
-                    <span className="label">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <h3 className="mt-3 text-2xl font-semibold tracking-tight text-primary">
-                      {shot.title}
-                    </h3>
-                    <p className="mt-4 leading-relaxed text-muted">
-                      {shot.desc}
-                    </p>
+                    {project.gallery.length === 1 && tipsFor(project.slug).length ? (
+                      <>
+                        <span className="label">Tips</span>
+                        <h3 className="mt-3 text-2xl font-semibold tracking-tight text-primary">
+                          Tips for this storefront
+                        </h3>
+                        <ul className="mt-5 space-y-4">
+                          {tipsFor(project.slug).map((tip) => (
+                            <li key={tip.title}>
+                              <p className="font-medium text-primary">{tip.title}</p>
+                              <p className="mt-1 text-sm leading-relaxed text-muted">{tip.body}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      <>
+                        <span className="label">{String(i + 1).padStart(2, "0")}</span>
+                        <h3 className="mt-3 text-2xl font-semibold tracking-tight text-primary">
+                          {shot.title}
+                        </h3>
+                        <p className="mt-4 leading-relaxed text-muted">{shot.desc}</p>
+                      </>
+                    )}
                   </div>
                 </div>
               </StaggerItem>

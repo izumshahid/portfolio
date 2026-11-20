@@ -87,7 +87,7 @@ export const PROJECTS = [
     category: "Commerce",
     tagline: "A custom PC configurator with real-time part compatibility.",
     summary:
-      "A custom PC builder storefront. Customers configure a machine part by part, and the configurator validates compatibility as they go — incompatible selections surface an error and scroll the user to the parts that do fit. Admins manage product groups, per-GPU frame-rate data and recommended products from a dedicated dashboard.",
+      "A custom PC builder storefront. Customers configure a machine part by part, and the configurator validates compatibility as they go: incompatible selections surface an error and scroll the user to the parts that do fit. Admins manage product groups, per-GPU frame-rate data and recommended products from a dedicated dashboard.",
     stack: ["React", "Node.js", "Express", "MongoDB", "Ant Design", "Polaris", "Shopify"],
     contributions: [
       "Built the configurator with live compatibility validation across part categories",
@@ -174,7 +174,7 @@ export const PROJECTS = [
       {
         img: APEX_INVENTORY_PERMISSIONS,
         title: "Permissions",
-        desc: "Role-based access control — admins review and assign permissions per user.",
+        desc: "Role-based access control: admins review and assign permissions per user.",
       },
       {
         img: APEX_INVENTORY_ACQUISITION_REPORT,
@@ -194,7 +194,7 @@ export const PROJECTS = [
     category: "Internal tooling",
     tagline: "Post-build QA, fulfilment and UPS shipping automation.",
     summary:
-      "Picks up where the inventory app stops. Once a machine is built, this system drives every remaining step — software and driver installation checks, peripheral verification, QA sign-off, packing and shipping. It integrates with UPS to generate tracking numbers and fulfils the matching order in Shopify.",
+      "Picks up where the inventory app stops. Once a machine is built, this system drives every remaining step: software and driver installation checks, peripheral verification, QA sign-off, packing and shipping. It integrates with UPS to generate tracking numbers and fulfils the matching order in Shopify.",
     stack: ["Node.js", "Express", "MVC", "UPS API", "Shopify API"],
     contributions: [
       "UPS integration generating tracking numbers and closing out Shopify fulfilment",
@@ -212,7 +212,7 @@ export const PROJECTS = [
       {
         img: APEX_WEB_ORDER_MAIN,
         title: "Order lookup",
-        desc: "Search any order to see where it sits — in build, in setup, or shipped.",
+        desc: "Search any order to see where it sits: in build, in setup, or shipped.",
       },
       {
         img: APEX_WEB_ORDER_PARTS,
@@ -269,7 +269,7 @@ export const PROJECTS = [
     category: "Shopify",
     tagline: "A custom theme with a drag-and-drop blog builder.",
     summary:
-      "A custom Shopify theme built in JavaScript and GraphQL. The centrepiece is a blog composition tool — editors pick from a set of section types, arrange them by dragging, and see a live preview alongside the editor. The storefront also carries a quick-shop modal written from scratch in vanilla JS.",
+      "A custom Shopify theme built in JavaScript and GraphQL. The centrepiece is a blog composition tool: editors pick from a set of section types, arrange them by dragging, and see a live preview alongside the editor. The storefront also carries a quick-shop modal written from scratch in vanilla JS.",
     stack: ["JavaScript", "GraphQL", "Liquid", "Shopify"],
     contributions: [
       "Drag-and-drop blog section builder with live preview",
@@ -312,7 +312,7 @@ export const PROJECTS = [
     category: "Shopify",
     tagline: "Self-serve subscription management for customers.",
     summary:
-      "A replacement customer portal for Recharge subscriptions. Customers reschedule upcoming orders, swap products, change quantity and frequency, apply discounts, review order history, and update payment and address details through Shopify — without contacting support.",
+      "A replacement customer portal for Recharge subscriptions. Customers reschedule upcoming orders, swap products, change quantity and frequency, apply discounts, review order history, and update payment and address details through Shopify, without contacting support.",
     stack: ["React", "Recharge API", "Shopify", "JavaScript"],
     contributions: [
       "Subscription management: reschedule, swap, change frequency and quantity, cancel",
@@ -360,7 +360,7 @@ export const PROJECTS = [
     category: "Shopify",
     tagline: "A public Shopify app for store analytics.",
     summary:
-      "A non-embedded public Shopify app that reports on store performance. It surfaces product, order and customer insight in both tabular and graphical form — SKU comparisons, regional order breakdowns, ROI per product and a ranking of most valuable customers.",
+      "A non-embedded public Shopify app that reports on store performance. It surfaces product, order and customer insight in both tabular and graphical form: SKU comparisons, regional order breakdowns, ROI per product and a ranking of most valuable customers.",
     stack: ["React", "Ant Design", "Node.js", "Express", "MongoDB", "Shopify API"],
     contributions: [
       "Analytics dashboard aggregating product, order and customer data",
@@ -408,7 +408,7 @@ export const PROJECTS = [
     category: "Commerce",
     tagline: "A pet nutrition quiz that recommends a subscription.",
     summary:
-      "A guided questionnaire that collects a pet's activity level, allergies and profile, then recommends a product subscription — flagging which products suit the animal and which to avoid. An admin dashboard exposes submissions and their results.",
+      "A guided questionnaire that collects a pet's activity level, allergies and profile, then recommends a product subscription, flagging which products suit the animal and which to avoid. An admin dashboard exposes submissions and their results.",
     stack: ["React", "Node.js", "Express", "MongoDB"],
     contributions: [
       "Multi-step quiz flow with conditional questions",
@@ -462,17 +462,17 @@ export const PROJECTS = [
       },
       {
         img: MCQS_DESKTOPVIEW_IMG,
-        title: "Test — desktop",
+        title: "Test (desktop)",
         desc: "The assessment view at desktop width.",
       },
       {
         img: MCQS_TABLETVIEW_IMG,
-        title: "Test — tablet",
+        title: "Test (tablet)",
         desc: "The same view at tablet width.",
       },
       {
         img: MCQS_MOBILEVIEW_IMG,
-        title: "Test — mobile",
+        title: "Test (mobile)",
         desc: "And at phone width.",
       },
     ],
@@ -493,22 +493,22 @@ export const PROJECTS = [
     gallery: [
       {
         img: TECHNICRON_DESKTOP_HOME_IMG,
-        title: "Home — desktop",
+        title: "Home (desktop)",
         desc: "The landing page at desktop width.",
       },
       {
         img: TECHNICRON_MOBILE_HOME_IMG,
-        title: "Home — mobile",
+        title: "Home (mobile)",
         desc: "The same landing page on a phone.",
       },
       {
         img: TECHNICRON_CONSTACTUS_DESKTOP_IMG,
-        title: "Contact — desktop",
+        title: "Contact (desktop)",
         desc: "Contact details at desktop width.",
       },
       {
         img: TECHNICRON_CONTACT_MOBILE_IMG,
-        title: "Contact — mobile",
+        title: "Contact (mobile)",
         desc: "Contact details on a phone.",
       },
     ],

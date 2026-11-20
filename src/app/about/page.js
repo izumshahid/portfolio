@@ -35,7 +35,7 @@ export default function About() {
               commerce specialist.
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted">
-              I work across the whole stack — React and Next.js on the front,
+              I work across the whole stack: React and Next.js on the front,
               Node and Express behind it, MongoDB or Postgres underneath, and
               deploys on EC2, DigitalOcean or Vercel. Most of what I have built
               lives in commerce: storefronts, Shopify apps and themes, and the
@@ -44,7 +44,7 @@ export default function About() {
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
               I like the unglamorous half of a product. A configurator that
               refuses an incompatible build, a queue that sequences work by due
-              date, a procurement view that answers how many parts to buy — that
+              date, a procurement view that answers how many parts to buy. That
               is the work I find most satisfying.
             </p>
           </Reveal>

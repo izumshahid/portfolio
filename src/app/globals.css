@@ -174,7 +174,7 @@
   }
 
   /* The nav pill. At phone width the page scrolls under it immediately, so
-     it is opaque there — a frosted pill leaves screenshots and headings
+     it is opaque there, a frosted pill leaves screenshots and headings
      legible through it. From sm up it stays clear over the hero and
      materialises as glass once scrolled. */
   .nav-surface {
@@ -201,7 +201,7 @@
 
   /* Full-screen overlays fully occlude the page behind them. A translucent
      wash leaves bright text legible through the menu, and backdrop-filter is
-     unreliable on mobile, so this is opaque — the aurora tint keeps it from
+     unreliable on mobile, so this is opaque, the aurora tint keeps it from
      reading as flat black. */
   .scrim {
     background-color: var(--canvas);
@@ -261,7 +261,7 @@
 
 /* ---------------------------------------------------------------
    Aurora: three blurred radial blobs on slow independent loops.
-   Pure CSS transforms so it stays on the compositor — no canvas,
+   Pure CSS transforms so it stays on the compositor, no canvas,
    no WebGL, negligible battery cost.
    --------------------------------------------------------------- */
 @keyframes drift-a {
@@ -352,7 +352,7 @@
    TECH VIEW
    Switched on by data-mode="tech" on <html> (set before paint by an
    inline script, so there is no flash). Both trees are rendered and
-   CSS picks one — no hydration mismatch, no flicker.
+   CSS picks one, no hydration mismatch, no flicker.
    =============================================================== */
 .only-normal {
   display: contents;

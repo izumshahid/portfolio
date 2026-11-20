@@ -37,7 +37,7 @@ export default function TechFooter() {
         </div>
       </div>
       <p className="t-mono mt-8 text-[11px] text-faint">
-        © {new Date().getFullYear()} {SITE.name} — {SITE.location} · tech view
+        © {new Date().getFullYear()} {SITE.name} · {SITE.location} · tech view
       </p>
     </footer>
   );

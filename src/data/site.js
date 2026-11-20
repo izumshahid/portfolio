@@ -6,7 +6,7 @@ export const SITE = {
   location: "Lahore, Pakistan",
   tagline: "I build commerce systems that ship.",
   intro:
-    "Full-stack engineer working across React, Node and Shopify. I build the parts of a product that have to hold up in production — configurators, inventory systems, subscription portals and the admin tooling behind them.",
+    "Full-stack engineer working across React, Node and Shopify. I build the parts of a product that have to hold up in production: configurators, inventory systems, subscription portals and the admin tooling behind them.",
   photo: PROFILE_PHOTO,
   email: "irzumshahid@gmail.com",
   resume:

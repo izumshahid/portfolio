@@ -43,7 +43,7 @@ export default function Aurora() {
             "radial-gradient(circle at 50% 50%, var(--color-magenta), transparent 70%)",
         }}
       />
-      {/* Vignette — keeps text contrast predictable wherever a blob drifts. */}
+      {/* Vignette, keeps text contrast predictable wherever a blob drifts. */}
       <div
         className="absolute inset-0"
         style={{

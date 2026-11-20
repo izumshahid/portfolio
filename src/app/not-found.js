@@ -8,7 +8,7 @@ export default function NotFound() {
         Nothing here.
       </h1>
       <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
-        That page does not exist — it may have moved when the site was rebuilt.
+        That page does not exist. It may have moved when the site was rebuilt.
       </p>
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         <Link

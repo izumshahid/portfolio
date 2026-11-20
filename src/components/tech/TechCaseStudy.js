@@ -125,7 +125,7 @@ export default function TechCaseStudy({ project }) {
           </p>
         </Reveal>
 
-        <Walkthrough gallery={project.gallery} />
+        <Walkthrough gallery={project.gallery} slug={project.slug} />
       </section>
 
       <nav className="grid gap-4 sm:grid-cols-2">
